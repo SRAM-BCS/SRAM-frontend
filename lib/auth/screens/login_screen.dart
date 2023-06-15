@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:summer_project/auth/widgets/auth_textfield_widget.dart';
+import 'dart:developer' as dev;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -9,28 +11,33 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final formKey = new GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+  bool isTeacher = false;
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
 
-  String _username = '', _password = '';
+  @override
+  void dispose() {
+    super.dispose();
+    _emailTextController.dispose();
+    _passwordTextController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     // AuthProvider auth = Provider.of<AuthProvider>(context);
 
-    final usernameField = TextFormField(
-      autofocus: false,
-      validator: validateEmail,
-      onSaved: (value) => _username = value,
-      decoration: buildInputDecoration("Confirm password", Icons.email),
-    );
+    final emailField = AuthTextFieldWidget(
+        prefixIcon: const Icon(Icons.email),
+        textEditingController: _emailTextController,
+        hintText: 'Enter Email',
+        textInputType: TextInputType.emailAddress);
 
-    final passwordField = TextFormField(
-      autofocus: false,
-      obscureText: true,
-      validator: (value) => value.isEmpty ? "Please enter password" : null,
-      onSaved: (value) => _password = value,
-      decoration: buildInputDecoration("Confirm password", Icons.lock),
-    );
+    final passwordField = AuthTextFieldWidget(
+        prefixIcon: const Icon(Icons.lock_rounded),
+        textEditingController: _passwordTextController,
+        hintText: 'Enter Password',
+        textInputType: TextInputType.visiblePassword);
 
     var loading = Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -52,41 +59,39 @@ class _LoginScreenState extends State<LoginScreen> {
         TextButton(
           child: const Text("Sign up",
               style: TextStyle(fontWeight: FontWeight.w300)),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/register');
-          },
+          onPressed: () {},
         ),
       ],
     );
 
-    var doLogin = () {
+    void doLogin() {
       final form = formKey.currentState;
 
-      if (form?.validate != null) {
-        if (form!.validate()) {
+      if (form != null) {
+        if (form.validate()) {
           form.save();
 
-          final Future<Map<String, dynamic>> successfulMessage =
-              auth.login(_username, _password);
+          // final Future<Map<String, dynamic>> successfulMessage =
+          //     // auth.login(_username, _password);
 
-          successfulMessage.then((response) {
-            if (response['status']) {
-              User user = response['user'];
-              Provider.of<UserProvider>(context, listen: false).setUser(user);
-              Navigator.pushReplacementNamed(context, '/dashboard');
-            } else {
-              SnackBar(
-                title: "Failed Login",
-                message: response['message']['message'].toString(),
-                duration: const Duration(seconds: 3),
-              ).show(context);
-            }
-          });
+          //     successfulMessage.then((response) {
+          //   if (response['status']) {
+          //     User user = response['user'];
+          //     Provider.of<UserProvider>(context, listen: false).setUser(user);
+          //     Navigator.pushReplacementNamed(context, '/dashboard');
+          //   } else {
+          //     SnackBar(
+          //       title: "Failed Login",
+          //       message: response['message']['message'].toString(),
+          //       duration: const Duration(seconds: 3),
+          //     ).show(context);
+          //   }
+          // });
         } else {
-          print("form is invalid");
+          dev.log("Form is invalid");
         }
       }
-    };
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -99,17 +104,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 250.0),
-                  label("Email"),
+                  const Text("Email"),
                   const SizedBox(height: 5.0),
-                  usernameField,
+                  emailField,
                   const SizedBox(height: 20.0),
-                  label("Password"),
+                  const Text("Password"),
                   const SizedBox(height: 5.0),
                   passwordField,
                   const SizedBox(height: 20.0),
-                  auth.loggedInStatus == Status.Authenticating
-                      ? loading
-                      : longButtons("Login", doLogin),
+                  //  auth.loggedInStatus == Status.Authenticating
+                  //     ? loading
+                  //     :
+                  ElevatedButton(
+                    onPressed: () {
+                      doLogin();
+                    },
+                    child: const Text('Login'),
+                  ),
                   const SizedBox(height: 5.0),
                   forgotLabel
                 ],
