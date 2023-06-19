@@ -5,13 +5,11 @@ import 'dart:developer' as dev;
 import 'package:image_picker/image_picker.dart';
 
 class ImagePicKPreviewWidget extends StatefulWidget {
-  BuildContext context;
   final bool forStudentImage;
   final bool forStudentIdImage;
 
   ImagePicKPreviewWidget({
     super.key,
-    required this.context,
     this.forStudentIdImage = false,
     this.forStudentImage = false,
   });
@@ -76,8 +74,8 @@ class _ImagePicKPreviewWidgetState extends State<ImagePicKPreviewWidget> {
               builder: (context) {
                 return Dialog(
                   child: Container(
-                    width: 200,
-                    height: 200,
+                    width: 400,
+                    height: 400,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           image: studentImagePath.isNotEmpty
@@ -87,7 +85,7 @@ class _ImagePicKPreviewWidgetState extends State<ImagePicKPreviewWidget> {
                                   : const AssetImage(
                                           'assets/images/no_preview_available.png')
                                       as ImageProvider,
-                          fit: BoxFit.cover),
+                          fit: BoxFit.contain),
                     ),
                   ),
                 );
