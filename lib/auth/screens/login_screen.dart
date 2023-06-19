@@ -56,11 +56,11 @@ class _LoginScreenState extends State<LoginScreen> {
 //            Navigator.pushReplacementNamed(context, '/reset-password');
           },
         ),
-        TextButton(
-          child: const Text("Sign up",
-              style: TextStyle(fontWeight: FontWeight.w300)),
-          onPressed: () {},
-        ),
+        // TextButton(
+        //   child: const Text("Sign up",
+        //       style: TextStyle(fontWeight: FontWeight.w300)),
+        //   onPressed: () {},
+        // ),
       ],
     );
 
