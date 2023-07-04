@@ -8,7 +8,7 @@ class ImagePicKPreviewWidget extends StatefulWidget {
   final bool forStudentImage;
   final bool forStudentIdImage;
 
-  ImagePicKPreviewWidget({
+  const ImagePicKPreviewWidget({
     super.key,
     this.forStudentIdImage = false,
     this.forStudentImage = false,

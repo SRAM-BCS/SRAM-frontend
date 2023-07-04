@@ -176,10 +176,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Student's PhotoGraph"),
+                      children: const [
+                        Text("Student's PhotoGraph"),
                         ImagePicKPreviewWidget(
-                          context: context,
                           forStudentImage: true,
                         ),
                       ],
@@ -187,10 +186,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Student's ID PhotoGraph"),
+                      children: const [
+                        Text("Student's ID PhotoGraph"),
                         ImagePicKPreviewWidget(
-                          context: context,
                           forStudentIdImage: true,
                         )
                       ],
