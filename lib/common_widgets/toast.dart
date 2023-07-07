@@ -1,5 +1,5 @@
 import 'package:fluttertoast/fluttertoast.dart';
 
-void showToast(String msg) {
+void showToast({required String msg}) {
   Fluttertoast.showToast(msg: msg);
 }

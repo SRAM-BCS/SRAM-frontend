@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:summer_project/auth/widgets/auth_textfield_widget.dart';
 import 'dart:developer' as dev;
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class FacultyLoginScreen extends StatefulWidget {
+  const FacultyLoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<FacultyLoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<FacultyLoginScreen> {
   final formKey = GlobalKey<FormState>();
   bool isTeacher = false;
   final _emailTextController = TextEditingController();
@@ -39,9 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: 'Enter Password',
         textInputType: TextInputType.visiblePassword);
 
-    var loading = Row(
+    var loading = const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
+      children: <Widget>[
         CircularProgressIndicator(),
       ],
     );
@@ -56,11 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
 //            Navigator.pushReplacementNamed(context, '/reset-password');
           },
         ),
-        // TextButton(
-        //   child: const Text("Sign up",
-        //       style: TextStyle(fontWeight: FontWeight.w300)),
-        //   onPressed: () {},
-        // ),
       ],
     );
 

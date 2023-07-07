@@ -14,48 +14,36 @@ class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.fill,
-            image: AssetImage(
-              'assets/images/mobile_gradient_background.jpg',
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 150,
             ),
-          ),
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 150,
+            Text(
+              DateTime.now().toString(),
+              style: TextStyle(
+                fontFamily: fontFamilySans,
+                fontSize: 30,
+                fontWeight: FontWeight.normal,
               ),
-              Text(
-                '03:45 PM',
-                style: TextStyle(
-                  fontFamily: fontFamilySans,
-                  fontSize: 30,
-                  fontWeight: FontWeight.normal,
-                ),
+            ),
+            Text(
+              'Friday 30 June',
+              style: TextStyle(
+                fontFamily: fontFamilySans,
+                fontSize: 30,
+                fontWeight: FontWeight.normal,
               ),
-              Text(
-                'Friday 30 June',
-                style: TextStyle(
-                  fontFamily: fontFamilySans,
-                  fontSize: 30,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              const CicularRippleButton(),
-              const SizedBox(
-                height: 50,
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            const CicularRippleButton(),
+            const SizedBox(
+              height: 50,
+            ),
+          ],
         ),
       ),
     );

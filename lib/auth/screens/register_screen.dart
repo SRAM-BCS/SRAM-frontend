@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:summer_project/auth/constants.dart';
-import 'package:summer_project/auth/widgets/image_pick_preview.dart';
+import 'package:summer_project/auth/widgets/image_preview.dart';
 import 'package:summer_project/common_widgets/toast.dart';
 import 'dart:developer' as dev;
 
+import '../../constants/routing_constants.dart';
+import '../preferences/student_user_preferences.dart';
+import '../services/student_auth_services.dart';
 import '../widgets/auth_textfield_widget.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -17,13 +20,24 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
-  bool isTeacher = false;
-
+  bool showLoader = false;
   final _emailTextController = TextEditingController();
   final _studentNameTextController = TextEditingController();
   final _classRollNoTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+  final _confirmPasswordTextController = TextEditingController();
+
   String yearJoined = '2021';
   String batch = 'BCS';
+  String studentImagePath = '';
+  String studentIdImagePath = '';
+
+  final studentAuthServices = StudentAuthServices();
+  final studentUserPreferences = StudentUserPreferences();
+  final _imagePicker = ImagePicker();
+
+  String imagePathFromCamera = '';
+  String imagePathFromGallery = '';
 
   @override
   void dispose() {
@@ -31,19 +45,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailTextController.dispose();
     _studentNameTextController.dispose();
     _classRollNoTextController.dispose();
+    _passwordTextController.dispose();
+    _confirmPasswordTextController.dispose();
   }
 
-  // void pickImageFromGallery(
-  //     bool forStudentImage, bool forStudentImageId) async {
-  //   final XFile? image =
-  //       await _imagePicker.pickImage(source: ImageSource.camera);
+  void register() {
+    setState(() {
+      showLoader = true;
+    });
+    final form = formKey.currentState;
+    if (form != null) {
+      if (form.validate()) {
+        form.save();
+        studentAuthServices
+            .register(
+                email: _emailTextController.text,
+                password: _confirmPasswordTextController.text,
+                name: _studentNameTextController.text,
+                rollNo: _classRollNoTextController.text,
+                batch: batch,
+                studentImagePath: studentImagePath,
+                studentIdImagePath: studentIdImagePath)
+            .then((value) {
+          if (value == 201) {
+            setState(() {
+              showLoader = false;
+            });
+            showToast(msg: 'Registration Request Sent');
+            studentUserPreferences.setAdminApprovalStatus(
+                status: AdminApprovalStatus.pending);
+            GoRouter.of(context)
+                .pushNamed(RoutingConstants.adminApprovalStatusScreenRouteName);
+          }
 
-  //   if (image != null && forStudentImage) {
-  //     studentImage = image;
-  //   } else if (image != null && forStudentImageId) {
-  //     studentIdImage = image;
-  //   }
-  // }
+          GoRouter.of(context)
+              .pushNamed(RoutingConstants.studentLoginScreenRouteName);
+        });
+      } else {
+        showToast(msg: 'Registration Failed');
+      }
+    }
+  }
+
+  void pickImage(bool fromCamera) async {
+    final XFile? image =
+        await _imagePicker.pickImage(source: ImageSource.camera);
+
+    if (image != null && fromCamera) {
+      imagePathFromCamera = image.path;
+    } else if (image != null && !fromCamera) {
+      imagePathFromGallery = image.path;
+    } else {
+      dev.log('Image is null', name: 'ImagePicker');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +117,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
         textEditingController: _studentNameTextController,
         hintText: "Enter Student's Name",
         textInputType: TextInputType.name);
+
+    final passwordField = AuthTextFieldWidget(
+        isPassword: true,
+        prefixIcon: const Icon(Icons.lock),
+        textEditingController: _passwordTextController,
+        hintText: 'Enter Password',
+        textInputType: TextInputType.visiblePassword);
+
+    final confirmPasswordField = AuthTextFieldWidget(
+        isPassword: true,
+        prefixIcon: const Icon(Icons.lock),
+        textEditingController: _confirmPasswordTextController,
+        hintText: 'Confirm Password',
+        textInputType: TextInputType.visiblePassword);
 
     final classRollNoField = Expanded(
       child: AuthTextFieldWidget(
@@ -115,40 +184,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final rollNoWidget = Row(
       children: [yearJoinedDropDown(), batchDropDown(), classRollNoField],
     );
-    var loading = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
-        CircularProgressIndicator(),
-      ],
-    );
 
-    void doRegister() {
-      final form = formKey.currentState;
-      if (form != null) {
-        if (form.validate()) {
-          if (true) {
-// if textfield input is error filled
-          } else {
-            form.save();
-            // auth.register(_username, _password, _confirmPassword).then((response) {
-            //   if (response['status']) {
-            //     User user = response['data'];
-            //     Provider.of<UserProvider>(context, listen: false).setUser(user);
-            //     Navigator.pushReplacementNamed(context, '/dashboard');
-            //   } else {
-            //     Flushbar(
-            //       title: "Registration Failed",
-            //       message: response.toString(),
-            //       duration: const Duration(seconds: 10),
-            //     ).show(context);
-            //   }
-            // });
-          }
-        } else {
-          showToast("Check Crendentials");
-        }
-      }
-    }
+    Widget imagePickWidget(bool forStudentImage) => Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                pickImage(true);
+                if (forStudentImage) {
+                  studentImagePath = imagePathFromCamera;
+                } else {
+                  studentIdImagePath = imagePathFromCamera;
+                }
+              },
+              icon: const Icon(Icons.camera_alt_rounded),
+            ),
+            IconButton(
+              onPressed: () {
+                pickImage(false);
+                if (forStudentImage) {
+                  studentImagePath = imagePathFromGallery;
+                } else {
+                  studentIdImagePath = imagePathFromGallery;
+                }
+              },
+              icon: const Icon(Icons.upload),
+            ),
+            ImagePreviewWidget(
+                imagePath: imagePathFromCamera.isNotEmpty
+                    ? imagePathFromCamera
+                    : imagePathFromGallery)
+          ],
+        );
 
     return SafeArea(
       child: Scaffold(
@@ -174,31 +240,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 5.0),
                     rollNoWidget,
                     const SizedBox(height: 15.0),
+                    const Text("Password"),
+                    const SizedBox(height: 5.0),
+                    passwordField,
+                    const SizedBox(height: 15.0),
+                    const Text("Confirm Password"),
+                    const SizedBox(height: 5.0),
+                    confirmPasswordField,
+                    const SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text("Student's PhotoGraph"),
-                        ImagePicKPreviewWidget(
-                          forStudentImage: true,
-                        ),
+                      children: [
+                        const Text("Student's PhotoGraph"),
+                        imagePickWidget(true)
                       ],
                     ),
                     const SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text("Student's ID PhotoGraph"),
-                        ImagePicKPreviewWidget(
-                          forStudentIdImage: true,
-                        )
+                      children: [
+                        const Text("Student's ID PhotoGraph"),
+                        imagePickWidget(false)
                       ],
                     ),
                     const SizedBox(height: 5.0),
                     ElevatedButton(
                       onPressed: () {
-                        doRegister();
+                        register();
                       },
-                      child: const Text('Register'),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: showLoader
+                            ? const CircularProgressIndicator()
+                            : const Text('Register'),
+                      ),
                     ),
                     const SizedBox(height: 5.0),
                   ],

@@ -1,4 +1,5 @@
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:flutter/material.dart';
 
 final passwordValidator = MultiValidator([
   RequiredValidator(errorText: "Password Cannot be Empty!"),
@@ -21,5 +22,7 @@ final usernameValidator = MultiValidator([
 ]);
 //Passed so that nested condition in validation of textfieldform can return this instead of null
 //to avoid error
-final matchPassword = MatchValidator(errorText: 'Password Does Not Match');
+String? matchPassword(String val, String password) =>
+    MatchValidator(errorText: 'passwords do not match')
+        .validateMatch(val, password);
 final validator = MultiValidator([]);

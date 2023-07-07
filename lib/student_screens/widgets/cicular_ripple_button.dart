@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
+import 'package:summer_project/constants/routing_constants.dart';
 
 class CicularRippleButton extends StatelessWidget {
   const CicularRippleButton({
@@ -20,7 +22,10 @@ class CicularRippleButton extends StatelessWidget {
         elevation: 5,
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(130)),
-          onTap: () {},
+          onTap: () {
+            GoRouter.of(context)
+                .pushNamed(RoutingConstants.qrCodeScannerScreenRouteName);
+          },
           child: Container(
             height: 250,
             width: 250,

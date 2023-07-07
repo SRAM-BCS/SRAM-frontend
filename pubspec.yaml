@@ -41,6 +41,8 @@ dependencies:
   persistent_bottom_nav_bar_v2: ^4.2.8
   simple_ripple_animation: ^0.0.7
   flutter_snake_navigationbar: ^0.6.1
+  mobile_scanner: ^3.3.0
+  face_camera: ^0.0.7
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:summer_project/utils/textfield_validator.dart';
 
-class AuthTextFieldWidget extends StatelessWidget {
-  Function(String value)? onChanged;
-  final bool isPassword;
+class AuthTextFieldWidget extends StatefulWidget {
+  final Function(String value)? onChanged;
+  bool isPassword;
   final bool isEmail;
   final bool isName;
   final bool isConfirmPassword;
   final TextEditingController textEditingController;
+  final String? password;
   final String hintText;
-  final Icon? prefixIcon;
+  Icon? prefixIcon;
   TextInputType textInputType;
   AuthTextFieldWidget({
     Key? key,
@@ -20,37 +21,56 @@ class AuthTextFieldWidget extends StatelessWidget {
     this.isName = false,
     this.isConfirmPassword = false,
     required this.textEditingController,
+    this.password = '',
     required this.hintText,
     this.prefixIcon,
     required this.textInputType,
   }) : super(key: key);
 
   @override
+  State<AuthTextFieldWidget> createState() => _AuthTextFieldWidgetState();
+}
+
+class _AuthTextFieldWidgetState extends State<AuthTextFieldWidget> {
+  @override
   Widget build(BuildContext context) {
     final inputBorder =
         OutlineInputBorder(borderSide: Divider.createBorderSide(context));
     return TextFormField(
-      onChanged: onChanged,
-      validator: isPassword
+      onChanged: widget.onChanged,
+      validator: widget.isPassword
           ? passwordValidator
-          : isEmail
+          : widget.isEmail
               ? emailValidator
-              : isName
+              : widget.isName
                   ? nameValidator
                   : validator,
-      controller: textEditingController,
+      controller: widget.textEditingController,
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: widget.hintText,
         border: inputBorder,
         focusedBorder: inputBorder,
         enabledBorder: inputBorder,
         errorBorder: inputBorder,
         filled: true,
-        prefixIcon: prefixIcon,
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: widget.isPassword || widget.isConfirmPassword
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    widget.isPassword = !widget.isPassword;
+                  });
+                },
+                icon: const Icon(
+                  Icons.visibility,
+                  color: Colors.grey,
+                ),
+              )
+            : null,
         contentPadding: const EdgeInsets.all(8),
       ),
-      keyboardType: textInputType,
-      obscureText: isPassword || isConfirmPassword,
+      keyboardType: widget.textInputType,
+      obscureText: widget.isPassword || widget.isConfirmPassword,
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-class TeacherUserModel {
+class FacultyUserModel {
   String id;
   String name;
-  TeacherUserModel({
+  FacultyUserModel({
     required this.id,
     required this.name,
   });
@@ -15,8 +15,8 @@ class TeacherUserModel {
     };
   }
 
-  factory TeacherUserModel.fromMap(Map<String, dynamic> map) {
-    return TeacherUserModel(
+  factory FacultyUserModel.fromMap(Map<String, dynamic> map) {
+    return FacultyUserModel(
       id: map['id'] ?? '',
       name: map['name'] ?? '',
     );
@@ -24,6 +24,6 @@ class TeacherUserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory TeacherUserModel.fromJson(String source) =>
-      TeacherUserModel.fromMap(json.decode(source));
+  factory FacultyUserModel.fromJson(String source) =>
+      FacultyUserModel.fromMap(json.decode(source));
 }
