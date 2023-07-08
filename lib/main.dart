@@ -1,13 +1,17 @@
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
+import 'package:summer_project/student_screens/provider/mark_attendance_provider.dart';
 import 'package:summer_project/utils/router.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await FaceCamera.initialize();
 
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => MarkAttendanceProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
