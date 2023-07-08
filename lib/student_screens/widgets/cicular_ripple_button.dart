@@ -24,7 +24,7 @@ class CicularRippleButton extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(130)),
           onTap: () {
             GoRouter.of(context)
-                .pushNamed(RoutingConstants.qrCodeScannerScreenRouteName);
+                .pushNamed(RoutingConstants.faceScanScreenRouteName);
           },
           child: Container(
             height: 250,

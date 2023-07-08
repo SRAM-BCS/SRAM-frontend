@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:summer_project/auth/widgets/auth_textfield_widget.dart';
+import 'package:summer_project/constants/routing_constants.dart';
 import 'dart:developer' as dev;
+
+import '../../common/widgets/toast.dart';
+import '../services/student_auth_services.dart';
 
 class StudentLoginScreen extends StatefulWidget {
   const StudentLoginScreen({super.key});
@@ -15,6 +19,8 @@ class _LoginScreenState extends State<StudentLoginScreen> {
   bool isTeacher = false;
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+
+  final studentAuthServices = StudentAuthServices();
 
   @override
   void dispose() {
@@ -50,8 +56,10 @@ class _LoginScreenState extends State<StudentLoginScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         TextButton(
-          child: const Text("Forgot password?",
-              style: TextStyle(fontWeight: FontWeight.w300)),
+          child: const Text(
+            "Forgot password?",
+            style: TextStyle(fontWeight: FontWeight.w300),
+          ),
           onPressed: () {
 //            Navigator.pushReplacementNamed(context, '/reset-password');
           },
@@ -59,29 +67,24 @@ class _LoginScreenState extends State<StudentLoginScreen> {
       ],
     );
 
-    void doLogin() {
+    void login() {
       final form = formKey.currentState;
 
       if (form != null) {
         if (form.validate()) {
           form.save();
 
-          // final Future<Map<String, dynamic>> successfulMessage =
-          //     // auth.login(_username, _password);
-
-          //     successfulMessage.then((response) {
-          //   if (response['status']) {
-          //     User user = response['user'];
-          //     Provider.of<UserProvider>(context, listen: false).setUser(user);
-          //     Navigator.pushReplacementNamed(context, '/dashboard');
-          //   } else {
-          //     SnackBar(
-          //       title: "Failed Login",
-          //       message: response['message']['message'].toString(),
-          //       duration: const Duration(seconds: 3),
-          //     ).show(context);
-          //   }
-          // });
+          studentAuthServices
+              .login(
+                  email: _emailTextController.text,
+                  password: _passwordTextController.text)
+              .then((value) {
+            if (value == 200) {
+              showToast(msg: "Login Successfull");
+              GoRouter.of(context)
+                  .pushReplacement(RoutingConstants.sNavBarScreenRouteName);
+            }
+          });
         } else {
           dev.log("Form is invalid");
         }
@@ -112,7 +115,7 @@ class _LoginScreenState extends State<StudentLoginScreen> {
                   //     :
                   ElevatedButton(
                     onPressed: () {
-                      doLogin();
+                      login();
                     },
                     child: const Text('Login'),
                   ),

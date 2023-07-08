@@ -45,7 +45,7 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
                   const Duration(seconds: 1),
                   () {
                     GoRouter.of(context).pushReplacementNamed(
-                        RoutingConstants.faceScanScreenRouteName);
+                        RoutingConstants.sNavBarScreenRouteName);
                   },
                 );
               }

@@ -1,26 +1,10 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:summer_project/auth/constants.dart';
-import 'package:summer_project/auth/models/student_user_model.dart';
+import 'package:summer_project/models/student_user_model.dart';
 
 const storage = FlutterSecureStorage();
 
 class StudentUserPreferences {
-  Future<String> getStudentJwt() async {
-    String? studentJwt = await storage.read(key: 'student_jwt');
-    if (studentJwt == null) {
-      return '';
-    }
-    return studentJwt;
-  }
-
-  void saveStudentJwt(String jwt) async {
-    await storage.write(key: 'student_jwt', value: jwt);
-  }
-
-  void removeStudentJwt() async {
-    await storage.delete(key: 'student_jwt');
-  }
-
   void readAdminApprovalStatus() async {
     await storage.read(key: 'admin_approval_status');
   }

@@ -4,7 +4,7 @@ import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../constants/routing_constants.dart';
+import '../../../constants/routing_constants.dart';
 
 class FaceScanScreen extends StatefulWidget {
   const FaceScanScreen({super.key});

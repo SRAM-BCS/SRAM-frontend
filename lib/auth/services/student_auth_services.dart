@@ -1,15 +1,18 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:summer_project/models/student_user_model.dart';
 import 'package:summer_project/auth/preferences/student_user_preferences.dart';
-import 'package:summer_project/common_widgets/toast.dart';
+import 'package:summer_project/auth/preferences/common_preferences.dart';
+import 'package:summer_project/common/widgets/toast.dart';
 import 'package:summer_project/utils/app_url.dart';
 import 'package:summer_project/utils/http_response_handle.dart';
 import 'dart:developer' as dev;
 
-final studentUserPreferences = StudentUserPreferences();
-
 class StudentAuthServices {
+  final _studentUserPreference = StudentUserPreferences();
+  final _commonPreference = CommonPreferences();
+
   Future<int> login({required String email, required String password}) async {
     int statusCode = 0;
     try {
@@ -22,10 +25,12 @@ class StudentAuthServices {
       );
 
       httpResponseHandle(
+          onSuccessMsgTag: 'Student Auth Services: Login ',
+          onSuccessMsg: 'Student Login Successfull',
           response: response,
           onSuccess: () {
             final data = jsonDecode(response.body);
-            // studentUserPreferences.saveStudentJwt(data);
+            // _studentUserPreference.saveStudentJwt(data);
             dev.log(data, name: "Student Login Response");
             statusCode = response.statusCode;
           });
@@ -45,7 +50,7 @@ class StudentAuthServices {
       required String studentIdImagePath}) async {
     int statusCode = 0;
     try {
-      var jwt = await studentUserPreferences.getStudentJwt();
+      var jwt = await _commonPreference.getJwt();
       dev.log(jwt, name: "Reading JWT");
       Map<String, String> header = {'authorization': jwt};
 
@@ -80,5 +85,27 @@ class StudentAuthServices {
       dev.log(e.toString(), name: 'Student Auth Services: Register Error');
     }
     return statusCode;
+  }
+
+  Future<StudentUserModel?> getStudent() async {
+    StudentUserModel? studentData;
+    try {
+      var jwt = await _commonPreference.getJwt();
+      dev.log(jwt, name: "Reading JWT");
+      Map<String, String> header = {'authorization': jwt};
+      final response = await http.get(Uri.parse(AppUrl.getStudentwithEmail),
+          headers: header);
+      httpResponseHandle(
+          onSuccessMsgTag: 'Student Auth Services: Get Student ',
+          onSuccessMsg: 'Student Get Successfull',
+          response: response,
+          onSuccess: () {
+            studentData = StudentUserModel.fromJson(response.body);
+            dev.log(response.body, name: "Student Get Response");
+          });
+    } catch (e) {
+      dev.log(e.toString(), name: "Student Get Error");
+    }
+    return studentData;
   }
 }

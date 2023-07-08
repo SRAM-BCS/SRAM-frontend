@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:summer_project/auth/widgets/auth_textfield_widget.dart';
 import 'dart:developer' as dev;
 

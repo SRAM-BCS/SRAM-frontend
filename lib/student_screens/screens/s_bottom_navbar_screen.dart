@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:summer_project/student_screens/screens/home_screen.dart';
-import 'package:summer_project/student_screens/screens/mark_attendanace_screen.dart';
+
+import 'mark_attendance/mark_attendanace_screen.dart';
 
 class SBottomNavBar extends StatefulWidget {
   const SBottomNavBar({super.key});

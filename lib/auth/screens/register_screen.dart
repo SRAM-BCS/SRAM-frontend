@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:summer_project/auth/constants.dart';
 import 'package:summer_project/auth/widgets/image_preview.dart';
-import 'package:summer_project/common_widgets/toast.dart';
+import 'package:summer_project/common/widgets/toast.dart';
 import 'dart:developer' as dev;
 
 import '../../constants/routing_constants.dart';
@@ -71,15 +71,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             setState(() {
               showLoader = false;
             });
+
             showToast(msg: 'Registration Request Sent');
-            studentUserPreferences.setAdminApprovalStatus(
-                status: AdminApprovalStatus.pending);
+
             GoRouter.of(context)
                 .pushNamed(RoutingConstants.adminApprovalStatusScreenRouteName);
           }
-
-          GoRouter.of(context)
-              .pushNamed(RoutingConstants.studentLoginScreenRouteName);
         });
       } else {
         showToast(msg: 'Registration Failed');
@@ -88,13 +85,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void pickImage(bool fromCamera) async {
-    final XFile? image =
-        await _imagePicker.pickImage(source: ImageSource.camera);
+    final XFile? image = await _imagePicker.pickImage(
+        source: fromCamera ? ImageSource.camera : ImageSource.gallery);
 
     if (image != null && fromCamera) {
-      imagePathFromCamera = image.path;
+      setState(() {
+        imagePathFromCamera = image.path;
+      });
     } else if (image != null && !fromCamera) {
-      imagePathFromGallery = image.path;
+      setState(() {
+        imagePathFromGallery = image.path;
+      });
     } else {
       dev.log('Image is null', name: 'ImagePicker');
     }
