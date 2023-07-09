@@ -8,15 +8,17 @@ import 'package:summer_project/auth/screens/otp_screen.dart';
 import 'package:summer_project/auth/screens/register_screen.dart';
 import 'package:summer_project/auth/screens/student_login_screen.dart';
 import 'package:summer_project/constants/routing_constants.dart';
+import 'package:summer_project/student_screens/screens/attendance/screens/attendance_detail_screen.dart';
+import 'package:summer_project/student_screens/screens/attendance/screens/course_list.dart';
 
 import 'package:summer_project/student_screens/screens/s_bottom_navbar_screen.dart';
 import 'package:summer_project/student_screens/screens/home_screen.dart';
 
 import '../auth/screens/forgot_password_email_verification.dart';
 import '../auth/screens/select_role_screen.dart';
-import '../student_screens/screens/mark_attendance/face_scan_screen.dart';
-import '../student_screens/screens/mark_attendance/mark_attendanace_screen.dart';
-import '../student_screens/screens/mark_attendance/qr_code_scanner.dart';
+import '../student_screens/screens/mark_attendance/screens/face_scan_screen.dart';
+import '../student_screens/screens/mark_attendance/screens/mark_attendanace_screen.dart';
+import '../student_screens/screens/mark_attendance/screens/qr_code_scanner.dart';
 
 class AppRouter {
   static GoRouter returnRouter() {
@@ -73,7 +75,7 @@ class AppRouter {
         ),
         GoRoute(
           name: RoutingConstants.qrCodeScannerScreenRouteName,
-          path: '/qrCodeScannerScreen',
+          path: '/qrcodeScannerScreen',
           builder: (BuildContext context, GoRouterState state) {
             return const QRCodeScannerScreen();
           },
@@ -121,6 +123,20 @@ class AppRouter {
           path: '/otpVerifyScreen',
           builder: (BuildContext context, GoRouterState state) {
             return OTPScreen(email: state.queryParameters['email']!);
+          },
+        ),
+        GoRoute(
+          name: RoutingConstants.courseListScreenRouteName,
+          path: '/courseListScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const CourseList();
+          },
+        ),
+        GoRoute(
+          name: RoutingConstants.attendanceDetailScreenRouteName,
+          path: '/',
+          builder: (BuildContext context, GoRouterState state) {
+            return const AttendanceDetailScreen();
           },
         ),
       ],

@@ -52,7 +52,7 @@ class StudentAuthServices {
     try {
       var jwt = await _commonPreference.getJwt();
       dev.log(jwt, name: "Reading JWT");
-      Map<String, String> header = {'authorization': jwt};
+      Map<String, String> header = {'Authorization': jwt};
 
       final request =
           http.MultipartRequest('POST', Uri.parse(AppUrl.studentRegister));
@@ -92,7 +92,7 @@ class StudentAuthServices {
     try {
       var jwt = await _commonPreference.getJwt();
       dev.log(jwt, name: "Reading JWT");
-      Map<String, String> header = {'authorization': jwt};
+      Map<String, String> header = {'Authorization': jwt};
       final response = await http.get(Uri.parse(AppUrl.getStudentwithEmail),
           headers: header);
       httpResponseHandle(

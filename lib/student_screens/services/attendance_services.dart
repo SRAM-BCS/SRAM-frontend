@@ -16,7 +16,7 @@ class AttendanceServices {
     int statusCode = 0;
     try {
       var jwt = await commonPreferences.getJwt();
-      Map<String, String> header = {'authorization': jwt};
+      Map<String, String> header = {'Authorization': jwt};
       final response = await http.post(Uri.parse(AppUrl.markAttendance),
           body: jsonEncode({
             'courseCode': courseCode,
@@ -42,7 +42,7 @@ class AttendanceServices {
     int statusCode = 0;
     try {
       var jwt = await commonPreferences.getJwt();
-      Map<String, String> header = {'authorization': jwt};
+      Map<String, String> header = {'Authorization': jwt};
       final response =
           await http.post(Uri.parse(AppUrl.getAttendance), headers: header);
 

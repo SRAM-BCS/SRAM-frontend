@@ -14,7 +14,7 @@ class CommonAuthServices {
     try {
       var jwt = await _commonPreference.getJwt();
       dev.log(jwt, name: "Reading JWT");
-      Map<String, String> header = {'authorization': jwt};
+      Map<String, String> header = {'Authorization': jwt};
       final response = await http.post(Uri.parse(AppUrl.otpGenerate),
           body: jsonEncode({
             'email': email,
@@ -39,7 +39,7 @@ class CommonAuthServices {
     try {
       var jwt = await _commonPreference.getJwt();
       dev.log(jwt, name: "Reading JWT");
-      Map<String, String> header = {'authorization': jwt};
+      Map<String, String> header = {'Authorization': jwt};
       final response = await http.post(Uri.parse(AppUrl.otpVerify),
           body: jsonEncode(
             {'enteredOTP': enteredOTP},
@@ -66,7 +66,7 @@ class CommonAuthServices {
     try {
       var jwt = await _commonPreference.getJwt();
       dev.log(jwt, name: "Reading JWT");
-      Map<String, String> header = {'authorization': jwt};
+      Map<String, String> header = {'Authorization': jwt};
       final response = await http.put(Uri.parse(AppUrl.forgotPassword),
           body: jsonEncode(
             {'email': email, 'otp': otp, 'newPassword': newPassword},

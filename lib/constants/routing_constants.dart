@@ -16,4 +16,7 @@ class RoutingConstants {
   static const String adminApprovalStatusScreenRouteName =
       'admin_approval_status_screen';
   static const String otpVerifyScreenRouteName = 'otp_verify_screen';
+  static const String courseListScreenRouteName = 'course_list_screen';
+  static const String attendanceDetailScreenRouteName =
+      'attendance_detail_screen';
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:summer_project/constants/constants.dart';
 
-import '../../widgets/cicular_ripple_button.dart';
+import '../widgets/cicular_ripple_button.dart';
 
 class MarkAttendanceScreen extends StatefulWidget {
   const MarkAttendanceScreen({super.key});

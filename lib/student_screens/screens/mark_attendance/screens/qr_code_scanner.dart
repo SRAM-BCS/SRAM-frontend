@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 import 'package:summer_project/constants/routing_constants.dart';
+import 'package:summer_project/student_screens/provider/mark_attendance_provider.dart';
 
 class QRCodeScannerScreen extends StatefulWidget {
   const QRCodeScannerScreen({super.key});
@@ -16,24 +18,21 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final markAttendanceProvider =
+        Provider.of<MarkAttendanceProvider>(context, listen: true);
     return Scaffold(
       body: Stack(
         children: [
           MobileScanner(
-            // scanWindow: Rect.fromLTRB(
-            //   MediaQuery.of(context).size.width / 10,
-            //   MediaQuery.of(context).size.height / 10,
-            //   MediaQuery.of(context).size.width / 10,
-            //   MediaQuery.of(context).size.height / 10,
-            // ),
-            // fit: BoxFit.contain,
-
+            startDelay: true,
             controller: MobileScannerController(
+              detectionTimeoutMs: 500,
               detectionSpeed: DetectionSpeed.normal,
               facing: CameraFacing.back,
               torchEnabled: false,
             ),
             onDetect: (capture) {
+              dev.log('QR Code Detected', name: 'QR Code Scanner');
               final List<Barcode> barcodes = capture.barcodes;
               for (Barcode barcode in barcodes) {
                 dev.log(barcode.rawValue.toString(),
@@ -41,13 +40,15 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
               }
 
               if (barcodes.isNotEmpty) {
-                Future.delayed(
-                  const Duration(seconds: 1),
-                  () {
-                    GoRouter.of(context).pushReplacementNamed(
-                        RoutingConstants.sNavBarScreenRouteName);
-                  },
-                );
+                markAttendanceProvider.setQrCodeScanned(true);
+                if (barcodes[0].rawValue.toString().isNotEmpty) {
+                  markAttendanceProvider
+                      .setQrCode(barcodes[0].rawValue.toString());
+
+                  GoRouter.of(context).pushReplacementNamed(
+                      RoutingConstants.attendanceMarkScreenRouteName);
+                  markAttendanceProvider.setQrCodeScanned(false);
+                }
               }
             },
           ),
@@ -68,7 +69,7 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
                       duration: const Duration(
                         milliseconds: 500,
                       ),
-                      child: isQrCodeFound
+                      child: markAttendanceProvider.isQrCodeScanned
                           ? Icon(
                               Icons.done_rounded,
                               size: 30,
