@@ -16,22 +16,19 @@ class _SBottomNavBarState extends State<SBottomNavBar> {
   int _selectedItemPosition = 0;
   List<Widget> _buildScreens() {
     return [
-      const MarkAttendanceScreen(),
+      const StudentHomeScreen(),
       const CourseList(),
       const MarkAttendanceScreen(),
-      const StudentHomeScreen()
     ];
   }
 
   List<BottomNavigationBarItem> navBarItems() {
     return [
-      const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-      const BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_month_rounded), label: 'attendance'),
-      const BottomNavigationBarItem(
-          icon: Icon(Icons.notifications), label: 'notifications'),
       const BottomNavigationBarItem(
           icon: Icon(Icons.person_2), label: 'profile'),
+      const BottomNavigationBarItem(
+          icon: Icon(Icons.calendar_month_rounded), label: 'attendance'),
+      const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
     ];
   }
 

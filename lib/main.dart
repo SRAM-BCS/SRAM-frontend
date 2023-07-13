@@ -1,6 +1,7 @@
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:summer_project/student_screens/provider/mark_attendance_provider.dart';
+import 'package:summer_project/student_screens/provider/student_user_provider.dart';
 import 'package:summer_project/utils/router.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +12,7 @@ void main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => MarkAttendanceProvider()),
+    ChangeNotifierProvider(create: (context) => StudentUserProvider()),
   ], child: const MyApp()));
 }
 

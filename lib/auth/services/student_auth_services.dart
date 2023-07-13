@@ -93,26 +93,4 @@ class StudentAuthServices {
     }
     return statusCode;
   }
-
-  Future<StudentUserModel?> getStudent() async {
-    StudentUserModel? studentData;
-    try {
-      var jwt = await _commonPreference.getJwt();
-      dev.log(jwt, name: "Reading JWT");
-      Map<String, String> header = {'Authorization': jwt};
-      final response = await http.get(Uri.parse(AppUrl.getStudentwithEmail),
-          headers: header);
-      httpResponseHandle(
-          onSuccessMsgTag: 'Student Auth Services: Get Student ',
-          onSuccessMsg: 'Student Get Successfull',
-          response: response,
-          onSuccess: () {
-            studentData = StudentUserModel.fromJson(response.body);
-            dev.log(response.body, name: "Student Get Response");
-          });
-    } catch (e) {
-      dev.log(e.toString(), name: "Student Get Error");
-    }
-    return studentData;
-  }
 }

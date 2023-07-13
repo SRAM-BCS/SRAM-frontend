@@ -20,8 +20,8 @@ class StudentCourse {
 
   factory StudentCourse.fromMap(Map<String, dynamic> map) {
     return StudentCourse(
-      facultyUserModel: FacultyUserModel.fromMap(map['facultyUserModel']),
-      courseModel: CourseModel.fromMap(map['courseModel']),
+      facultyUserModel: FacultyUserModel.fromMap(map['faculty']),
+      courseModel: CourseModel.fromMap(map['course']),
     );
   }
 

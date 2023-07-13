@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import 'package:summer_project/constants/constants.dart';
 import 'package:summer_project/constants/routing_constants.dart';
-
-import 'attendance_count_display_widget.dart';
+import 'package:summer_project/student_screens/provider/mark_attendance_provider.dart';
 
 class CourseTile extends StatelessWidget {
   final String courseName;
@@ -25,10 +25,15 @@ class CourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final markAttendanceProvider =
+        Provider.of<MarkAttendanceProvider>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
+          markAttendanceProvider.setCourseCode(courseCode);
+          markAttendanceProvider.setTeacherCode(facultyCode);
+
           GoRouter.of(context).pushNamed(
             RoutingConstants.attendanceDetailScreenRouteName,
           );
@@ -47,20 +52,20 @@ class CourseTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Software Engineering Course',
+                  courseName,
                   style: TextStyle(
                       fontSize: 22,
                       fontFamily: fontFamilySans,
                       fontWeight: FontWeight.normal),
                 ),
                 Text(
-                  'Course Code',
+                  courseCode,
                   style: TextStyle(
                       fontFamily: fontFamilySans,
                       fontWeight: FontWeight.normal),
                 ),
                 Text(
-                  'Proff. Santosh Singh Rathore',
+                  facultyName,
                   style: TextStyle(
                       fontFamily: fontFamilySans,
                       fontWeight: FontWeight.normal),

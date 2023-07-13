@@ -4,21 +4,23 @@ class StudentUserModel {
   String id;
   String name;
   String email;
-  String password;
   String profileImage;
-  String rollNo;
+  String idImage;
+  String requestStatus;
+  bool isActive;
+  String roll;
   String batch;
-  int yearOfAddmission;
 
   StudentUserModel({
     required this.id,
     required this.name,
     required this.email,
-    required this.password,
     required this.profileImage,
-    required this.rollNo,
+    required this.idImage,
+    required this.requestStatus,
+    required this.isActive,
+    required this.roll,
     required this.batch,
-    required this.yearOfAddmission,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,11 +28,12 @@ class StudentUserModel {
       'id': id,
       'name': name,
       'email': email,
-      'password': password,
       'profileImage': profileImage,
-      'rollNo': rollNo,
+      'idImage': idImage,
+      'requestStatus': requestStatus,
+      'isActive': isActive,
+      'roll': roll,
       'batch': batch,
-      'yearOfAddmission': yearOfAddmission,
     };
   }
 
@@ -39,11 +42,12 @@ class StudentUserModel {
       id: map['id'] ?? '',
       name: map['name'] ?? '',
       email: map['email'] ?? '',
-      password: map['password'] ?? '',
       profileImage: map['profileImage'] ?? '',
-      rollNo: map['rollNo'] ?? '',
+      idImage: map['idImage'] ?? '',
+      requestStatus: map['requestStatus'] ?? '',
+      isActive: map['isActive'] ?? false,
+      roll: map['roll'] ?? '',
       batch: map['batch'] ?? '',
-      yearOfAddmission: map['yearOfAddmission']?.toInt() ?? 0,
     );
   }
 
@@ -51,4 +55,62 @@ class StudentUserModel {
 
   factory StudentUserModel.fromJson(String source) =>
       StudentUserModel.fromMap(json.decode(source));
+
+  StudentUserModel copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? profileImage,
+    String? idImage,
+    String? requestStatus,
+    bool? isActive,
+    String? roll,
+    String? batch,
+  }) {
+    return StudentUserModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      profileImage: profileImage ?? this.profileImage,
+      idImage: idImage ?? this.idImage,
+      requestStatus: requestStatus ?? this.requestStatus,
+      isActive: isActive ?? this.isActive,
+      roll: roll ?? this.roll,
+      batch: batch ?? this.batch,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'StudentUserModel(id: $id, name: $name, email: $email, profileImage: $profileImage, idImage: $idImage, requestStatus: $requestStatus, isActive: $isActive, roll: $roll, batch: $batch)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is StudentUserModel &&
+        other.id == id &&
+        other.name == name &&
+        other.email == email &&
+        other.profileImage == profileImage &&
+        other.idImage == idImage &&
+        other.requestStatus == requestStatus &&
+        other.isActive == isActive &&
+        other.roll == roll &&
+        other.batch == batch;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        email.hashCode ^
+        profileImage.hashCode ^
+        idImage.hashCode ^
+        requestStatus.hashCode ^
+        isActive.hashCode ^
+        roll.hashCode ^
+        batch.hashCode;
+  }
 }

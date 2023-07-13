@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:summer_project/auth/preferences/common_preferences.dart';
 import 'package:summer_project/constants/routing_constants.dart';
+import 'package:summer_project/models/student_user_model.dart';
+import 'package:summer_project/student_screens/provider/student_user_provider.dart';
+import 'package:summer_project/student_screens/services/student_services.dart';
 import 'package:summer_project/student_screens/widgets/custom_info_tile_2.dart';
-
+import 'package:provider/provider.dart';
 import '../../constants/constants.dart';
 import '../widgets/custom_info_tile.dart';
 
@@ -16,8 +19,22 @@ class StudentHomeScreen extends StatefulWidget {
 
 class _StudentHomeScreenState extends State<StudentHomeScreen> {
   final _commonPreference = CommonPreferences();
+  final _studentServices = StudentServices();
+
+  @override
+  void initState() {
+    getStudent();
+    super.initState();
+  }
+
+  void getStudent() {
+    _studentServices.getStudent(context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final studentProvider =
+        Provider.of<StudentUserProvider>(context, listen: true).user;
     return Scaffold(
       // backgroundColor: Colors.grey.shade200,
       body: SafeArea(
@@ -60,16 +77,17 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
             const SizedBox(
               height: 15,
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
                 radius: 60,
+                backgroundImage: NetworkImage(studentProvider.profileImage),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(6.0),
               child: Text(
-                'Deepak Rai',
+                studentProvider.name,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: fontFamilySans,
@@ -85,22 +103,23 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                   color: Colors.grey.shade500,
                   fontWeight: FontWeight.bold),
             ),
-            const Padding(
-              padding: EdgeInsets.all(12.0),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
               child: Material(
                 elevation: 5,
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(left: 30, bottom: 12, top: 12),
+                  padding: const EdgeInsets.only(left: 30, bottom: 12, top: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      CustomInfoTile(title: 'Roll No.', content: '2021BCS022'),
+                      CustomInfoTile(
+                          title: 'Roll No.', content: studentProvider.roll),
                       CustomInfoTile(
                           title: 'Email Address',
-                          content: 'bcs_2021022@iiitm.ac.in'),
+                          content: studentProvider.email),
                     ],
                   ),
                 ),

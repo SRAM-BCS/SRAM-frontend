@@ -5,13 +5,14 @@ import '../../models/student_user_model.dart';
 class StudentUserProvider extends ChangeNotifier {
   StudentUserModel _user = StudentUserModel(
       name: '',
-      rollNo: '',
+      roll: '',
       batch: '',
-      yearOfAddmission: 0,
-      password: '',
       profileImage: '',
       id: '',
-      email: '');
+      email: '',
+      idImage: '',
+      isActive: false,
+      requestStatus: '');
 
   StudentUserModel get user => _user;
 

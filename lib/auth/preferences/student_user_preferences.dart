@@ -29,11 +29,12 @@ class StudentUserPreferences {
           id: '',
           name: '',
           email: '',
-          password: '',
           profileImage: '',
-          rollNo: '',
+          roll: '',
           batch: '',
-          yearOfAddmission: 0);
+          idImage: '',
+          isActive: false,
+          requestStatus: '');
     }
   }
 

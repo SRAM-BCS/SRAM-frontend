@@ -1,14 +1,18 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
-import 'dart:developer' as dev;
+
 import 'package:summer_project/constants/routing_constants.dart';
 import 'package:summer_project/student_screens/provider/mark_attendance_provider.dart';
 import 'package:summer_project/student_screens/services/attendance_services.dart';
 
 class QRCodeScannerScreen extends StatefulWidget {
-  const QRCodeScannerScreen({super.key});
+  const QRCodeScannerScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<QRCodeScannerScreen> createState() => _QRCodeScannerScreenState();
@@ -48,14 +52,13 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
                       .setQrCode(barcodes[0].rawValue.toString());
 
                   GoRouter.of(context).pushReplacementNamed(
-                      RoutingConstants.attendanceMarkScreenRouteName);
+                      RoutingConstants.sNavBarScreenRouteName);
                   markAttendanceProvider.setQrCodeScanned(false);
+                  _attendanceServices.markAttendance(
+                      coursecode: markAttendanceProvider.courseCode,
+                      classRoom: markAttendanceProvider.qrcode,
+                      teachercode: markAttendanceProvider.teacherCode);
                 }
-
-                _attendanceServices.markAttendance(
-                    coursecode: 'IRE',
-                    classRoom: markAttendanceProvider.qrcode,
-                    teachercode: 'JD');
               }
             },
           ),

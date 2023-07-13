@@ -3,10 +3,12 @@ import 'dart:convert';
 class FacultyUserModel {
   final String name;
   final String email;
+  final String code;
   final bool isActive;
   FacultyUserModel({
     required this.name,
     required this.email,
+    required this.code,
     required this.isActive,
   });
 
@@ -14,6 +16,7 @@ class FacultyUserModel {
     return {
       'name': name,
       'email': email,
+      'code': code,
       'isActive': isActive,
     };
   }
@@ -22,6 +25,7 @@ class FacultyUserModel {
     return FacultyUserModel(
       name: map['name'] ?? '',
       email: map['email'] ?? '',
+      code: map['code'] ?? '',
       isActive: map['isActive'] ?? false,
     );
   }
