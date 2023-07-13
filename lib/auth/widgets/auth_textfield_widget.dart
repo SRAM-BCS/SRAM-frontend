@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:summer_project/constants/constants.dart';
 import 'package:summer_project/utils/textfield_validator.dart';
 
 class AuthTextFieldWidget extends StatefulWidget {
   final Function(String value)? onChanged;
+  void Function(String? value)? onSaved;
   bool isPassword;
   final bool isEmail;
   final bool isName;
@@ -11,11 +13,13 @@ class AuthTextFieldWidget extends StatefulWidget {
   final TextEditingController textEditingController;
   final String? password;
   final String hintText;
+
   Icon? prefixIcon;
   TextInputType textInputType;
   AuthTextFieldWidget({
     Key? key,
     this.onChanged,
+    this.onSaved,
     this.isPassword = false,
     this.isEmail = false,
     this.isName = false,
@@ -32,6 +36,7 @@ class AuthTextFieldWidget extends StatefulWidget {
 }
 
 class _AuthTextFieldWidgetState extends State<AuthTextFieldWidget> {
+  bool isVisible = false;
   @override
   Widget build(BuildContext context) {
     final inputBorder =
@@ -45,9 +50,13 @@ class _AuthTextFieldWidgetState extends State<AuthTextFieldWidget> {
               : widget.isName
                   ? nameValidator
                   : validator,
+      onSaved: widget.onSaved,
       controller: widget.textEditingController,
       decoration: InputDecoration(
         hintText: widget.hintText,
+        hintStyle: TextStyle(
+          fontFamily: fontFamilySans,
+        ),
         border: inputBorder,
         focusedBorder: inputBorder,
         enabledBorder: inputBorder,
@@ -58,19 +67,25 @@ class _AuthTextFieldWidgetState extends State<AuthTextFieldWidget> {
             ? IconButton(
                 onPressed: () {
                   setState(() {
-                    widget.isPassword = !widget.isPassword;
+                    isVisible = !isVisible;
                   });
                 },
-                icon: const Icon(
-                  Icons.visibility,
-                  color: Colors.grey,
+                icon: AnimatedSwitcher(
+                  duration: const Duration(seconds: 10),
+                  child: isVisible
+                      ? const Icon(Icons.visibility)
+                      : const Icon(Icons.visibility_off),
                 ),
               )
             : null,
         contentPadding: const EdgeInsets.all(8),
       ),
       keyboardType: widget.textInputType,
-      obscureText: widget.isPassword || widget.isConfirmPassword,
+      obscureText: widget.isPassword || widget.isConfirmPassword
+          ? isVisible
+              ? false
+              : true
+          : false,
     );
   }
 }

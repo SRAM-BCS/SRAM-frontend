@@ -12,14 +12,14 @@ class CommonAuthServices {
   Future<int> generateOTP({required String email}) async {
     int statusCode = 0;
     try {
-      var jwt = await _commonPreference.getJwt();
-      dev.log(jwt, name: "Reading JWT");
-      Map<String, String> header = {'Authorization': jwt};
-      final response = await http.post(Uri.parse(AppUrl.otpGenerate),
-          body: jsonEncode({
-            'email': email,
-          }),
-          headers: header);
+      dev.log(email, name: "Email");
+      final response = await http.post(
+        Uri.parse(AppUrl.otpGenerate),
+        body: jsonEncode({
+          'email': email,
+        }),
+        headers: {"Content-Type": "application/json; charset=utf-8"},
+      );
 
       httpResponseHandle(
           onSuccessMsg: 'OTP Generated',
@@ -27,6 +27,7 @@ class CommonAuthServices {
           response: response,
           onSuccess: () {
             statusCode = response.statusCode;
+            showToast(msg: 'OTP Generated');
           });
     } catch (e) {
       dev.log(e.toString(), name: "OTP Generate Error");
@@ -34,23 +35,22 @@ class CommonAuthServices {
     return statusCode;
   }
 
-  Future<int> verifyOTP(int enteredOTP) async {
+  Future<int> verifyOTP({required int otp, required String email}) async {
     int statusCode = 0;
     try {
-      var jwt = await _commonPreference.getJwt();
-      dev.log(jwt, name: "Reading JWT");
-      Map<String, String> header = {'Authorization': jwt};
       final response = await http.post(Uri.parse(AppUrl.otpVerify),
           body: jsonEncode(
-            {'enteredOTP': enteredOTP},
+            {'otp': otp, 'email': email},
           ),
-          headers: header);
+          headers: {"Content-Type": "application/json; charset=utf-8"});
       httpResponseHandle(
           onSuccessMsg: 'OTP Verified',
           onSuccessMsgTag: 'CommonAuth-Verify OTP',
           response: response,
           onSuccess: () {
             statusCode = response.statusCode;
+            dev.log('OTP Verified', name: 'OTP Verification');
+            showToast(msg: 'OTP Verified');
           });
     } catch (e) {
       dev.log(e.toString(), name: "OTP Generate Error");
@@ -66,7 +66,10 @@ class CommonAuthServices {
     try {
       var jwt = await _commonPreference.getJwt();
       dev.log(jwt, name: "Reading JWT");
-      Map<String, String> header = {'Authorization': jwt};
+      Map<String, String> header = {
+        "Content-Type": "application/json; charset=utf-8",
+        'Authorization': jwt
+      };
       final response = await http.put(Uri.parse(AppUrl.forgotPassword),
           body: jsonEncode(
             {'email': email, 'otp': otp, 'newPassword': newPassword},

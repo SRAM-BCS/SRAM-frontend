@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:developer' as dev;
 import 'package:summer_project/auth/services/common_auth_services.dart';
 import 'package:summer_project/auth/widgets/auth_textfield_widget.dart';
-import 'dart:developer' as dev;
+import 'package:summer_project/auth/widgets/button_widget_1.dart';
+import 'package:summer_project/constants/constants.dart';
 
 import '../../constants/routing_constants.dart';
+import '../widgets/form_widgets.dart';
 
 class ForgotPasswordEmailVerificationScreen extends StatefulWidget {
+  final String endRoute;
   const ForgotPasswordEmailVerificationScreen({
     Key? key,
+    required this.endRoute,
   }) : super(key: key);
 
   @override
@@ -32,7 +37,10 @@ class _EmailVerificationScreenState
   void navigateToOtpScreen() {
     commonAuthServices.generateOTP(email: _emailTextController.text);
     GoRouter.of(context).pushNamed(RoutingConstants.otpVerifyScreenRouteName,
-        queryParameters: {'email': _emailTextController.text});
+        queryParameters: {
+          'email': _emailTextController.text,
+          'endRoute': widget.endRoute
+        });
   }
 
   @override
@@ -46,18 +54,20 @@ class _EmailVerificationScreenState
           child: Column(
             children: [
               Flexible(
-                flex: 1,
+                flex: 3,
                 child: Container(),
               ),
               const Flexible(
                 flex: 2,
                 child: SizedBox(),
               ),
-              const Center(
+              Center(
                 child: Text(
                   'Enter Email for Verification',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 20,
+                    fontFamily: fontFamilySans,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -72,7 +82,8 @@ class _EmailVerificationScreenState
               const SizedBox(
                 height: 24,
               ),
-              InkWell(
+              ButtonWidget1(
+                title: 'Submit',
                 onTap: () async {
                   if (_formKey.currentState!.validate()) {
                     dev.log("SignUp Form Validation Passed ",
@@ -83,32 +94,26 @@ class _EmailVerificationScreenState
                         name: "Form Validation -frontend");
                   }
                 },
-                child: Ink(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: const ShapeDecoration(
-                    color: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(
-                          4,
-                        ),
-                      ),
+                isLoading: _isLoading,
+              ),
+              const SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  headerText(title: "Already have an account?"),
+                  TextButton(
+                    onPressed: () {
+                      GoRouter.of(context).pushNamed(
+                          RoutingConstants.studentLoginScreenRouteName);
+                    },
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                          fontFamily: fontFamilySans,
+                          fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(
-                      milliseconds: 500,
-                    ),
-                    child: _isLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : const Center(
-                            child: Text("Submit"),
-                          ),
-                  ),
-                ),
+                  )
+                ],
               ),
               Flexible(
                 flex: 2,

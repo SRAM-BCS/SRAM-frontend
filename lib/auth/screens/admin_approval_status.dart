@@ -20,8 +20,16 @@ class _AdminApprovalStatusScreenState extends State<AdminApprovalStatusScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: Text('Approval Pending'),
+      body: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 100),
+            Text('Status: Under Review'),
+            SizedBox(height: 50),
+          ],
+        ),
       ),
     );
   }

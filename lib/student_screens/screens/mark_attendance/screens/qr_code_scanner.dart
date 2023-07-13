@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 import 'package:summer_project/constants/routing_constants.dart';
 import 'package:summer_project/student_screens/provider/mark_attendance_provider.dart';
+import 'package:summer_project/student_screens/services/attendance_services.dart';
 
 class QRCodeScannerScreen extends StatefulWidget {
   const QRCodeScannerScreen({super.key});
@@ -15,6 +16,7 @@ class QRCodeScannerScreen extends StatefulWidget {
 
 class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
   bool isQrCodeFound = false;
+  final _attendanceServices = AttendanceServices();
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,11 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
                       RoutingConstants.attendanceMarkScreenRouteName);
                   markAttendanceProvider.setQrCodeScanned(false);
                 }
+
+                _attendanceServices.markAttendance(
+                    coursecode: 'IRE',
+                    classRoom: markAttendanceProvider.qrcode,
+                    teachercode: 'JD');
               }
             },
           ),

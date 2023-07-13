@@ -2,26 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:summer_project/auth/constants.dart';
+import 'package:summer_project/auth/preferences/common_preferences.dart';
+import 'package:summer_project/auth/widgets/button_widget_1.dart';
 import 'package:summer_project/auth/widgets/image_preview.dart';
 import 'package:summer_project/common/widgets/toast.dart';
+import 'package:summer_project/constants/constants.dart';
 import 'dart:developer' as dev;
 
 import '../../constants/routing_constants.dart';
 import '../preferences/student_user_preferences.dart';
 import '../services/student_auth_services.dart';
 import '../widgets/auth_textfield_widget.dart';
+import '../widgets/form_widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  final String email;
+  const RegisterScreen({super.key, required this.email});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final studentPreference = StudentUserPreferences();
+  final commonPreferences = CommonPreferences();
   final formKey = GlobalKey<FormState>();
   bool showLoader = false;
-  final _emailTextController = TextEditingController();
   final _studentNameTextController = TextEditingController();
   final _classRollNoTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
@@ -42,7 +48,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void dispose() {
     super.dispose();
-    _emailTextController.dispose();
     _studentNameTextController.dispose();
     _classRollNoTextController.dispose();
     _passwordTextController.dispose();
@@ -59,11 +64,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         form.save();
         studentAuthServices
             .register(
-                email: _emailTextController.text,
+                email: widget.email,
                 password: _confirmPasswordTextController.text,
                 name: _studentNameTextController.text,
-                rollNo: _classRollNoTextController.text,
-                batch: batch,
+                rollNo: '$yearJoined$batch-${_classRollNoTextController.text}',
+                batch: '$yearJoined$batch',
                 studentImagePath: studentImagePath,
                 studentIdImagePath: studentIdImagePath)
             .then((value) {
@@ -71,11 +76,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             setState(() {
               showLoader = false;
             });
-
-            showToast(msg: 'Registration Request Sent');
-
+            commonPreferences
+                .setStudentAppProgress(AppProgressStatus.registered);
             GoRouter.of(context)
-                .pushNamed(RoutingConstants.adminApprovalStatusScreenRouteName);
+                .pushNamed(RoutingConstants.studentLoginScreenRouteName);
+          } else {
+            setState(() {
+              showLoader = false;
+            });
           }
         });
       } else {
@@ -84,33 +92,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  void pickImage(bool fromCamera) async {
+  void pickImage(
+      {required bool fromCamera, required bool forStudentImage}) async {
     final XFile? image = await _imagePicker.pickImage(
         source: fromCamera ? ImageSource.camera : ImageSource.gallery);
 
     if (image != null && fromCamera) {
-      setState(() {
-        imagePathFromCamera = image.path;
-      });
+      imagePathFromCamera = image.path;
     } else if (image != null && !fromCamera) {
-      setState(() {
-        imagePathFromGallery = image.path;
-      });
+      imagePathFromGallery = image.path;
     } else {
       dev.log('Image is null', name: 'ImagePicker');
     }
+
+    if (forStudentImage) {
+      setState(() {
+        studentImagePath =
+            fromCamera ? imagePathFromCamera : imagePathFromGallery;
+      });
+
+      dev.log(studentImagePath, name: 'Student Image Path');
+    } else if (forStudentImage == false) {
+      setState(() {
+        studentIdImagePath =
+            fromCamera ? imagePathFromCamera : imagePathFromGallery;
+      });
+      dev.log(studentIdImagePath, name: 'Student ID Image Path');
+    }
+
+    dev.log(studentIdImagePath, name: 'id path');
+    dev.log(studentImagePath, name: 'image path');
+    dev.log(fromCamera.toString(), name: 'isCamera');
   }
 
   @override
   Widget build(BuildContext context) {
     // AuthProvider auth = Provider.of<AuthProvider>(context);
 
-    final emailField = AuthTextFieldWidget(
-        isEmail: true,
-        prefixIcon: const Icon(Icons.email),
-        textEditingController: _emailTextController,
-        hintText: 'Enter Email',
-        textInputType: TextInputType.emailAddress);
+    final emailField = Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey),
+        ),
+      ),
+      child: Text(
+        widget.email,
+        style: TextStyle(fontSize: 18, fontFamily: fontFamilySans),
+      ),
+    );
 
     final name = AuthTextFieldWidget(
         isName: true,
@@ -145,7 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       for (String year in yearJoinedList) {
         var newItem = DropdownMenuItem(
           value: year,
-          child: Text(year),
+          child: Text(year, style: TextStyle(fontFamily: fontFamilySans)),
         );
         dropdownItems.add(newItem);
       }
@@ -166,7 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       for (String batch in batchList) {
         var newItem = DropdownMenuItem(
           value: batch,
-          child: Text(batch),
+          child: Text(batch, style: TextStyle(fontFamily: fontFamilySans)),
         );
         dropdownItems.add(newItem);
       }
@@ -186,34 +215,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: [yearJoinedDropDown(), batchDropDown(), classRollNoField],
     );
 
-    Widget imagePickWidget(bool forStudentImage) => Row(
+    Widget imagePickWidget({required bool forStudentImage}) => Row(
           children: [
             IconButton(
               onPressed: () {
-                pickImage(true);
-                if (forStudentImage) {
-                  studentImagePath = imagePathFromCamera;
-                } else {
-                  studentIdImagePath = imagePathFromCamera;
-                }
+                pickImage(fromCamera: true, forStudentImage: forStudentImage);
               },
               icon: const Icon(Icons.camera_alt_rounded),
             ),
             IconButton(
               onPressed: () {
-                pickImage(false);
-                if (forStudentImage) {
-                  studentImagePath = imagePathFromGallery;
-                } else {
-                  studentIdImagePath = imagePathFromGallery;
-                }
+                pickImage(fromCamera: false, forStudentImage: forStudentImage);
               },
               icon: const Icon(Icons.upload),
             ),
             ImagePreviewWidget(
-                imagePath: imagePathFromCamera.isNotEmpty
-                    ? imagePathFromCamera
-                    : imagePathFromGallery)
+                imagePath:
+                    forStudentImage ? studentImagePath : studentIdImagePath)
           ],
         );
 
@@ -228,55 +246,77 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 215.0),
-                    const Text("Email"),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Student Register Screen',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: fontFamilySans,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20.0),
+                    headerText(title: 'Email'),
                     const SizedBox(height: 5.0),
                     emailField,
                     const SizedBox(height: 15.0),
-                    const Text("Student's Name"),
+                    headerText(title: "Student's Full Name"),
                     const SizedBox(height: 10.0),
                     name,
                     const SizedBox(height: 20.0),
-                    const Text("Roll No."),
+                    headerText(title: 'Roll No.'),
                     const SizedBox(height: 5.0),
                     rollNoWidget,
                     const SizedBox(height: 15.0),
-                    const Text("Password"),
+                    headerText(title: 'Password'),
                     const SizedBox(height: 5.0),
                     passwordField,
                     const SizedBox(height: 15.0),
-                    const Text("Confirm Password"),
+                    headerText(title: 'Confirm Password'),
                     const SizedBox(height: 5.0),
                     confirmPasswordField,
                     const SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Student's PhotoGraph"),
-                        imagePickWidget(true)
+                        headerText(title: "Student's Image"),
+                        imagePickWidget(forStudentImage: true)
                       ],
                     ),
                     const SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Student's ID PhotoGraph"),
-                        imagePickWidget(false)
+                        headerText(title: "Student's ID Image"),
+                        imagePickWidget(forStudentImage: false)
                       ],
                     ),
                     const SizedBox(height: 5.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        register();
-                      },
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: showLoader
-                            ? const CircularProgressIndicator()
-                            : const Text('Register'),
-                      ),
+                    ButtonWidget1(
+                      title: "Register",
+                      onTap: register,
+                      isLoading: showLoader,
                     ),
                     const SizedBox(height: 5.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        headerText(title: "Already have an account?"),
+                        TextButton(
+                          onPressed: () {
+                            GoRouter.of(context).pushNamed(
+                                RoutingConstants.studentLoginScreenRouteName);
+                          },
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                                fontFamily: fontFamilySans,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ),

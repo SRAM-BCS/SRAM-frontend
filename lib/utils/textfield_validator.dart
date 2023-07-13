@@ -1,5 +1,4 @@
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:flutter/material.dart';
 
 final passwordValidator = MultiValidator([
   RequiredValidator(errorText: "Password Cannot be Empty!"),
@@ -7,6 +6,11 @@ final passwordValidator = MultiValidator([
 ]);
 
 final emailValidator = MultiValidator([
+  // PatternValidator(
+  //   r'/iiitm.ac.in/',
+  //   errorText: 'Register with Institute mail Id only',
+  //   caseSensitive: true,
+  // ),
   RequiredValidator(errorText: "Email Cannot be Empty!"),
   EmailValidator(errorText: "Email not valid!"),
 ]);

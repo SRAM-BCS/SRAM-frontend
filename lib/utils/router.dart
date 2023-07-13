@@ -24,13 +24,13 @@ class AppRouter {
   static GoRouter returnRouter() {
     GoRouter router = GoRouter(
       routes: <RouteBase>[
-        // GoRoute(
-        //   name: RoutingConstants.firstScreenRouteName,
-        //   path: '/',
-        //   builder: (BuildContext context, GoRouterState state) {
-        //     return const FirstScreen();
-        //   },
-        // ),
+        GoRoute(
+          name: RoutingConstants.firstScreenRouteName,
+          path: '/',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FirstScreen();
+          },
+        ),
         GoRoute(
           name: RoutingConstants.selectRoleScreenRouteName,
           path: '/selectRoleScreen',
@@ -49,7 +49,7 @@ class AppRouter {
           name: RoutingConstants.registerRouteName,
           path: '/register',
           builder: (BuildContext context, GoRouterState state) {
-            return const RegisterScreen();
+            return RegisterScreen(email: state.queryParameters['email']!);
           },
         ),
         GoRoute(
@@ -115,14 +115,18 @@ class AppRouter {
           name: RoutingConstants.forgotPasswordEmailVerificationScreenRouteName,
           path: '/forgotPasswordEmailVerificationScreen',
           builder: (BuildContext context, GoRouterState state) {
-            return const ForgotPasswordEmailVerificationScreen();
+            return ForgotPasswordEmailVerificationScreen(
+              endRoute: state.queryParameters['endRoute']!,
+            );
           },
         ),
         GoRoute(
           name: RoutingConstants.otpVerifyScreenRouteName,
           path: '/otpVerifyScreen',
           builder: (BuildContext context, GoRouterState state) {
-            return OTPScreen(email: state.queryParameters['email']!);
+            return OTPScreen(
+                email: state.queryParameters['email']!,
+                endRoute: state.queryParameters['endRoute']!);
           },
         ),
         GoRoute(
@@ -134,7 +138,7 @@ class AppRouter {
         ),
         GoRoute(
           name: RoutingConstants.attendanceDetailScreenRouteName,
-          path: '/',
+          path: '/attendanceDetailScreen',
           builder: (BuildContext context, GoRouterState state) {
             return const AttendanceDetailScreen();
           },

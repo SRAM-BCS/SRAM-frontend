@@ -10,26 +10,32 @@ import '../../auth/preferences/common_preferences.dart';
 class AttendanceServices {
   final commonPreferences = CommonPreferences();
   Future<int> markAttendance(
-      {required String courseCode,
-      required String roomCode,
-      required String teacherCode}) async {
+      {required String coursecode,
+      required String classRoom,
+      required String teachercode}) async {
     int statusCode = 0;
     try {
       var jwt = await commonPreferences.getJwt();
-      Map<String, String> header = {'Authorization': jwt};
+      Map<String, String> header = {
+        "Content-Type": "application/json; charset=utf-8",
+        'Authorization': jwt
+      };
       final response = await http.post(Uri.parse(AppUrl.markAttendance),
           body: jsonEncode({
-            'courseCode': courseCode,
-            'roomCode': roomCode,
-            'teacherCode': teacherCode,
+            'coursecode': coursecode,
+            'classRoom': classRoom,
+            'teachercode': teachercode,
           }),
           headers: header);
+
+      dev.log('$classRoom $coursecode $teachercode');
 
       httpResponseHandle(
           onSuccessMsgTag: 'Attendance Service - MarkAttendance',
           onSuccessMsg: 'Attendance Marked',
           response: response,
           onSuccess: () {
+            dev.log(response.body, name: 'Attendance Response');
             statusCode = response.statusCode;
           });
     } catch (e) {

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:summer_project/auth/preferences/common_preferences.dart';
+import 'package:summer_project/constants/routing_constants.dart';
 import 'package:summer_project/student_screens/widgets/custom_info_tile_2.dart';
 
 import '../../constants/constants.dart';
@@ -12,6 +15,7 @@ class StudentHomeScreen extends StatefulWidget {
 }
 
 class _StudentHomeScreenState extends State<StudentHomeScreen> {
+  final _commonPreference = CommonPreferences();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,17 +33,24 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                     fallbackWidth: 100,
                     fallbackHeight: 30,
                   ),
-                  Material(
-                    color: Colors.grey.shade200,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Icon(
-                        Icons.logout_outlined,
-                        color: Colors.red,
-                        size: 28,
+                  InkWell(
+                    onTap: () {
+                      _commonPreference.deleteJwt();
+                      GoRouter.of(context).replaceNamed(
+                          RoutingConstants.studentLoginScreenRouteName);
+                    },
+                    child: Material(
+                      color: Colors.grey.shade200,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Icon(
+                          Icons.logout_outlined,
+                          color: Colors.red,
+                          size: 28,
+                        ),
                       ),
                     ),
                   ),

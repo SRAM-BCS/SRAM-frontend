@@ -1,16 +1,16 @@
 class AppUrl {
-  static const String baseURL = 'http://127.0.0.1:8000/';
+  static const String baseURL = 'http://localhost:3333/api/';
   //student urls
-  static const String studentUrl = 'api/student';
-  static const String studentLogin = "$baseURL$studentUrl/login/";
-  static const String studentRegister = "$baseURL$studentUrl/registration/";
+  static const String studentUrl = 'student';
+  static const String studentLogin = "$baseURL$studentUrl/login";
+  static const String studentRegister = "$baseURL$studentUrl/register/";
   static const String getStudentwithEmail = "$baseURL$studentUrl/get/";
   //student attendance urls
-  static const String markAttendance = "$baseURL$studentUrl/attendance/";
+  static const String markAttendance = "$baseURL$studentUrl/attendance";
   static const String getAttendance = "$baseURL$studentUrl/attendance/";
 
   //faculty urls
-  static const String facultyUrl = 'api/faculty';
+  static const String facultyUrl = 'faculty';
   static const String facultyCodeStatus =
       "$baseURL$facultyUrl/faculty/code/status/";
   static const String facultyLogin = "$baseURL$facultyUrl/login/";

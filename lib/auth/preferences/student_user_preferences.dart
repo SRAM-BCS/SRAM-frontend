@@ -1,5 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:summer_project/auth/constants.dart';
+import 'package:summer_project/auth/models/register_form_model.dart';
 import 'package:summer_project/models/student_user_model.dart';
 
 const storage = FlutterSecureStorage();
@@ -34,5 +35,10 @@ class StudentUserPreferences {
           batch: '',
           yearOfAddmission: 0);
     }
+  }
+
+  void setStudentRegisterDetails(RegisterFormModel registerFormModel) async {
+    await storage.write(
+        key: 'student_register_details', value: registerFormModel.toJson());
   }
 }
