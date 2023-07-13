@@ -1,24 +1,28 @@
 import 'dart:convert';
 
 class FacultyUserModel {
-  String id;
-  String name;
+  final String name;
+  final String email;
+  final bool isActive;
   FacultyUserModel({
-    required this.id,
     required this.name,
+    required this.email,
+    required this.isActive,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
+      'email': email,
+      'isActive': isActive,
     };
   }
 
   factory FacultyUserModel.fromMap(Map<String, dynamic> map) {
     return FacultyUserModel(
-      id: map['id'] ?? '',
       name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      isActive: map['isActive'] ?? false,
     );
   }
 

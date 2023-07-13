@@ -48,7 +48,10 @@ class AttendanceServices {
     int statusCode = 0;
     try {
       var jwt = await commonPreferences.getJwt();
-      Map<String, String> header = {'Authorization': jwt};
+      Map<String, String> header = {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': jwt
+      };
       final response =
           await http.post(Uri.parse(AppUrl.getAttendance), headers: header);
 
