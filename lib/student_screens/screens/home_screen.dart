@@ -76,9 +76,12 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: NetworkImage(studentProvider.profileImage),
+              child: Hero(
+                tag: 'profile_image',
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundImage: NetworkImage(studentProvider.profileImage),
+                ),
               ),
             ),
             Padding(
