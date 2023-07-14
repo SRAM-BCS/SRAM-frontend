@@ -26,7 +26,7 @@ class AppRouter {
       routes: <RouteBase>[
         GoRoute(
           name: RoutingConstants.firstScreenRouteName,
-          path: '/first',
+          path: '/',
           builder: (BuildContext context, GoRouterState state) {
             return const FirstScreen();
           },
@@ -131,7 +131,7 @@ class AppRouter {
         ),
         GoRoute(
           name: RoutingConstants.courseListScreenRouteName,
-          path: '/',
+          path: '/courseListScreen',
           builder: (BuildContext context, GoRouterState state) {
             return const CourseList();
           },
