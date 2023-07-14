@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:summer_project/student_screens/provider/mark_attendance_provider.dart';
 
 import '../../../../constants/constants.dart';
 import '../../../constants.dart';
+import '../../../provider/student_user_provider.dart';
 
 class CodeSelectDropdownWidget extends StatefulWidget {
   final String title;
@@ -23,6 +26,11 @@ class _CodeSelectDropdownWidgetState extends State<CodeSelectDropdownWidget> {
   String teacherCode = 'JD';
 
   DropdownButton<String> codeDropDown() {
+    final attendanceProvider =
+        Provider.of<MarkAttendanceProvider>(context, listen: false);
+
+    attendanceProvider.setCourseCode(courseCode);
+    attendanceProvider.setTeacherCode(teacherCode);
     List<DropdownMenuItem<String>> dropdownItems = [];
     List<String> itemList = [];
     if (widget.isCourseCode) {
@@ -50,10 +58,12 @@ class _CodeSelectDropdownWidgetState extends State<CodeSelectDropdownWidget> {
           setState(() {
             courseCode = value!;
           });
+          attendanceProvider.setCourseCode(value!);
         } else if (widget.isTeacherCode) {
           setState(() {
             teacherCode = value!;
           });
+          attendanceProvider.setTeacherCode(value!);
         }
       },
     );
