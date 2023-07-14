@@ -25,14 +25,36 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
         child: Column(
           children: [
             const SizedBox(
-              height: 40,
+              height: 20,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Image(
+                    image: AssetImage(
+                      'assets/images/sram-logo.png',
+                    ),
+                    height: 50,
+                    width: 100,
+                  ),
+                ),
+              ],
             ),
             Padding(
-              padding: const EdgeInsets.all(19.0),
+              padding: const EdgeInsets.only(left: 12, right: 12),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        offset: Offset(0, 5),
+                      )
+                    ]),
                 height: 415,
                 width: 450,
                 child: TableCalendar(
