@@ -4,8 +4,10 @@ import 'package:summer_project/constants/constants.dart';
 import 'package:summer_project/student_screens/constants.dart';
 import 'package:summer_project/student_screens/screens/mark_attendance/widgets/code_select_dropdown_widget.dart';
 
+import '../../../provider/mark_attendance_provider.dart';
 import '../../../provider/student_user_provider.dart';
 import '../widgets/cicular_ripple_button.dart';
+import 'package:intl/intl.dart';
 
 class MarkAttendanceScreen extends StatefulWidget {
   const MarkAttendanceScreen({super.key});
@@ -15,11 +17,18 @@ class MarkAttendanceScreen extends StatefulWidget {
 }
 
 class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
+  String formattedDate = '';
+  String formattedTime = '';
+
   @override
   Widget build(BuildContext context) {
+    final attendanceProvider = Provider.of<MarkAttendanceProvider>(context);
+
     final studentProvider =
         Provider.of<StudentUserProvider>(context, listen: true).user;
-
+    DateTime now = DateTime.now();
+    formattedTime = DateFormat.jm().format(now);
+    formattedDate = DateFormat.MMMMEEEEd().format(now);
     return Scaffold(
       body: Center(
         child: Column(
@@ -54,7 +63,7 @@ class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
               height: 50,
             ),
             Text(
-              DateTime.now().toString(),
+              formattedTime,
               style: TextStyle(
                 fontFamily: fontFamilySans,
                 fontSize: 30,
@@ -62,7 +71,7 @@ class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
               ),
             ),
             Text(
-              'Friday 30 June',
+              formattedDate,
               style: TextStyle(
                 fontFamily: fontFamilySans,
                 fontSize: 30,
@@ -74,7 +83,15 @@ class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
             ),
             const CicularRippleButton(),
             const SizedBox(
-              height: 50,
+              height: 25,
+            ),
+            Text(
+              '${attendanceProvider.courseCode}-${attendanceProvider.teacherCode}',
+              style: TextStyle(
+                  color: Colors.grey, fontSize: 15, fontFamily: fontFamilySans),
+            ),
+            const SizedBox(
+              height: 25,
             ),
             const CodeSelectDropdownWidget(
               title: 'Course Code',
