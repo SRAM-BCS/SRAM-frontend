@@ -47,6 +47,7 @@ dependencies:
   table_calendar: ^3.0.9
   syncfusion_flutter_charts: ^22.1.37
   flutter_svg: ^2.0.7
+  intl: ^0.18.1
 
 
 dev_dependencies:
