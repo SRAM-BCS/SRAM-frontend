@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import 'package:summer_project/constants/routing_constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CicularRippleButton extends StatelessWidget {
   const CicularRippleButton({
@@ -27,14 +28,19 @@ class CicularRippleButton extends StatelessWidget {
                 .pushNamed(RoutingConstants.faceScanScreenRouteName);
           },
           child: Container(
-            height: 250,
-            width: 250,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(130),
+              height: 250,
+              width: 250,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(130),
+                ),
               ),
-            ),
-          ),
+              child: Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: SvgPicture.asset(
+                  'assets/images/qr-code.svg',
+                ),
+              )),
         ),
       ),
     );
