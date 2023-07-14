@@ -46,10 +46,10 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Placeholder(
-                    fallbackWidth: 100,
-                    fallbackHeight: 30,
-                  ),
+                  const Image(
+                      height: 50,
+                      width: 100,
+                      image: AssetImage('assets/images/sram-logo.png')),
                   InkWell(
                     onTap: () {
                       _commonPreference.deleteJwt();
@@ -73,9 +73,6 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 15,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
