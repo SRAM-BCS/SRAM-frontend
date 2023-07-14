@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
+import 'package:summer_project/constants/constants.dart';
 import 'package:summer_project/constants/routing_constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
