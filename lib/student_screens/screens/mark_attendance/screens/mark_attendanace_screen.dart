@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:summer_project/constants/constants.dart';
+import 'package:summer_project/student_screens/constants.dart';
+import 'package:summer_project/student_screens/screens/mark_attendance/widgets/code_select_dropdown_widget.dart';
 
 import '../../../provider/student_user_provider.dart';
 import '../widgets/cicular_ripple_button.dart';
@@ -17,6 +19,7 @@ class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
   Widget build(BuildContext context) {
     final studentProvider =
         Provider.of<StudentUserProvider>(context, listen: true).user;
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -50,7 +53,6 @@ class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
             const SizedBox(
               height: 50,
             ),
-
             Text(
               DateTime.now().toString(),
               style: TextStyle(
@@ -74,11 +76,12 @@ class _MarkAttendanceScreenState extends State<MarkAttendanceScreen> {
             const SizedBox(
               height: 50,
             ),
-            // Row(
-            //   children: [
-
-            //   ],
-            // )
+            const CodeSelectDropdownWidget(
+              title: 'Course Code',
+              isCourseCode: true,
+            ),
+            const CodeSelectDropdownWidget(
+                title: 'Teacher Code', isTeacherCode: true),
           ],
         ),
       ),
