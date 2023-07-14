@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:summer_project/student_screens/screens/attendance/widgets/attendance_count_display_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'dart:developer' as dev;
 
 import '../../../../constants/constants.dart';
+import '../../../../constants/routing_constants.dart';
 
 class AttendanceDetailScreen extends StatefulWidget {
   const AttendanceDetailScreen({super.key});
@@ -12,6 +15,9 @@ class AttendanceDetailScreen extends StatefulWidget {
 }
 
 class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
+  DateTime _focusedDay = DateTime.now();
+  DateTime _selectedDay = DateTime.now();
+  CalendarFormat _calendarFormat = CalendarFormat.month;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +64,64 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
+                  calendarFormat: _calendarFormat,
+                  onFormatChanged: (format) {
+                    setState(() {
+                      _calendarFormat = format;
+                    });
+                  },
+                  selectedDayPredicate: (day) {
+                    return isSameDay(day, _selectedDay);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      _selectedDay = selectedDay;
+                      _focusedDay = focusedDay;
+                    });
+                  },
+                  calendarBuilders: CalendarBuilders(
+                    todayBuilder: (context, day, focusedDay) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${day.day}',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: fontFamilySans,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    markerBuilder: (context, day, events) {
+                      if (day == DateTime.utc(2023, 07, 10)) {
+                        return Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.green,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${day.day}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: fontFamilySans,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  onPageChanged: (focusedDay) {
+                    _focusedDay = focusedDay;
+                  },
                 ),
               ),
             ),
@@ -119,6 +183,37 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                   ],
                 ),
               ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Material(
+                    color: Colors.grey.shade200,
+                    elevation: 4,
+                    child: InkWell(
+                      onTap: () {
+                        GoRouter.of(context).pushNamed(
+                            RoutingConstants.faceScanScreenRouteName);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Icon(
+                            Icons.qr_code_2_outlined,
+                            size: 100,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             )
           ],
         ),
