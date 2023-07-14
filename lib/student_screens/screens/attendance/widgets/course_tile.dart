@@ -28,7 +28,7 @@ class CourseTile extends StatelessWidget {
     final markAttendanceProvider =
         Provider.of<MarkAttendanceProvider>(context, listen: true);
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(12.0),
       child: InkWell(
         onTap: () {
           markAttendanceProvider.setCourseCode(courseCode);
@@ -39,12 +39,17 @@ class CourseTile extends StatelessWidget {
           );
         },
         child: Container(
+          height: 110,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
-            border: const Border.fromBorderSide(
-              BorderSide(color: Colors.grey),
-            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              )
+            ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -62,13 +67,15 @@ class CourseTile extends StatelessWidget {
                   courseCode,
                   style: TextStyle(
                       fontFamily: fontFamilySans,
-                      fontWeight: FontWeight.normal),
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15),
                 ),
                 Text(
                   facultyName,
                   style: TextStyle(
                       fontFamily: fontFamilySans,
-                      fontWeight: FontWeight.normal),
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15),
                 ),
                 const SizedBox(
                   height: 5,
