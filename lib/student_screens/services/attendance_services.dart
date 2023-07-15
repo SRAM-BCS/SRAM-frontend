@@ -1,5 +1,6 @@
 import 'dart:developer' as dev;
 import 'package:http/http.dart' as http;
+import 'package:summer_project/common/widgets/toast.dart';
 import 'dart:convert';
 
 import 'package:summer_project/utils/app_url.dart';
@@ -64,6 +65,41 @@ class AttendanceServices {
           });
     } catch (e) {
       dev.log(e.toString(), name: 'Get Attendance Error');
+    }
+    return statusCode;
+  }
+
+  Future<int> faceVerification({required String imagePath}) async {
+    int statusCode = 0;
+    try {
+      var jwt = await commonPreferences.getJwt();
+      Map<String, String> header = {
+        "Content-Type": "application/json; charset=utf-8",
+        'Authorization': jwt
+      };
+      final request =
+          http.MultipartRequest('POST', Uri.parse(AppUrl.faceCamera));
+      request.headers.addAll(header);
+      request.files.add(
+        await http.MultipartFile.fromPath('image_file', imagePath),
+      );
+      dev.log('face image sent');
+      final res = await request.send();
+      dev.log(jsonDecode(await res.stream.bytesToString())['message'],
+          name: 'Face Verification Status');
+      if (res.statusCode == 200) {
+        statusCode = 200;
+
+        showToast(msg: 'Face Verified');
+      } else if (res.statusCode == 401) {
+        statusCode = 401;
+      } else if (res.statusCode == 404) {
+        statusCode = 404;
+      } else {
+        showToast(msg: 'Something went wrong');
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'Face Verification Error');
     }
     return statusCode;
   }
