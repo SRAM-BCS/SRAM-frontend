@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:summer_project/auth/widgets/auth_textfield_widget.dart';
 import 'dart:developer' as dev;
+
+import '../../constants/routing_constants.dart';
+import '../services/faculty_auth_services.dart';
 
 class FacultyLoginScreen extends StatefulWidget {
   const FacultyLoginScreen({super.key});
@@ -10,6 +14,7 @@ class FacultyLoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<FacultyLoginScreen> {
+  final facultyAuthServices = FacultyAuthServices();
   final formKey = GlobalKey<FormState>();
   bool isTeacher = false;
   final _emailTextController = TextEditingController();
@@ -60,27 +65,20 @@ class _LoginScreenState extends State<FacultyLoginScreen> {
 
     void doLogin() {
       final form = formKey.currentState;
-
+      dev.log('button Pressed');
       if (form != null) {
         if (form.validate()) {
           form.save();
-
-          // final Future<Map<String, dynamic>> successfulMessage =
-          //     // auth.login(_username, _password);
-
-          //     successfulMessage.then((response) {
-          //   if (response['status']) {
-          //     User user = response['user'];
-          //     Provider.of<UserProvider>(context, listen: false).setUser(user);
-          //     Navigator.pushReplacementNamed(context, '/dashboard');
-          //   } else {
-          //     SnackBar(
-          //       title: "Failed Login",
-          //       message: response['message']['message'].toString(),
-          //       duration: const Duration(seconds: 3),
-          //     ).show(context);
-          //   }
-          // });
+          facultyAuthServices
+              .login(
+                  email: _emailTextController.text,
+                  password: _passwordTextController.text)
+              .then((value) {
+            if (value == 200) {
+              GoRouter.of(context).pushReplacementNamed(
+                  RoutingConstants.fNavBarScreenRouteName);
+            }
+          });
         } else {
           dev.log("Form is invalid");
         }
