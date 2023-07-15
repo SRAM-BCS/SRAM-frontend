@@ -1,7 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:summer_project/auth/constants.dart';
+import 'package:summer_project/auth/preferences/common_preferences.dart';
 import 'package:summer_project/auth/widgets/button_widget_1.dart';
 
 import 'package:summer_project/constants/constants.dart';
@@ -13,6 +13,7 @@ class SelectRoleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final commonPreference = CommonPreferences();
     return Scaffold(
       body: Center(
         child: Column(
@@ -30,8 +31,11 @@ class SelectRoleScreen extends StatelessWidget {
             ),
             ButtonWidget1(
               title: 'Faculty',
-              onTap: () {
-                GoRouter.of(context).pushNamed(RoutingConstants.loginRouteName);
+              onTap: () async {
+                commonPreference
+                    .setCurrentLoggedInUserLevel(CurrentUserLevel.faculty);
+                GoRouter.of(context)
+                    .pushNamed(RoutingConstants.facultyLoginScreenRouteName);
               },
             ),
             const SizedBox(
@@ -40,6 +44,8 @@ class SelectRoleScreen extends StatelessWidget {
             ButtonWidget1(
               title: 'Student',
               onTap: () {
+                commonPreference
+                    .setCurrentLoggedInUserLevel(CurrentUserLevel.student);
                 GoRouter.of(context).pushNamed(
                     RoutingConstants
                         .forgotPasswordEmailVerificationScreenRouteName,
