@@ -5,6 +5,8 @@ import 'package:summer_project/student_screens/provider/student_user_provider.da
 import 'package:summer_project/utils/router.dart';
 import 'package:provider/provider.dart';
 
+import 'faculty_screens/provider/faculty_provider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -13,6 +15,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => MarkAttendanceProvider()),
     ChangeNotifierProvider(create: (context) => StudentUserProvider()),
+    ChangeNotifierProvider(create: (context) => FacultyProvider()),
   ], child: const MyApp()));
 }
 
