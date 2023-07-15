@@ -6,3 +6,5 @@ enum AdminApprovalStatus { pending, accepted, denied }
 enum ValidationStatus { accepted, pending, denied, nullStatus }
 
 enum AppProgressStatus { registered, emailVerified, loggedIn }
+
+enum CurrentUserLevel { student, faculty }
