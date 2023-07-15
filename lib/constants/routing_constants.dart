@@ -19,4 +19,15 @@ class RoutingConstants {
   static const String courseListScreenRouteName = 'course_list_screen';
   static const String attendanceDetailScreenRouteName =
       'attendance_detail_screen';
+
+  //faculty routes
+
+  static const String facultyLoginScreenRouteName = 'faculty_login_screen';
+  static const String fNavBarScreenRouteName = 'f_nav_bar_screen';
+  static const String facultyProfileScreen = 'faculty_profile_screen';
+  static const String facultyBatchCourseList = 'faculty_batch_course_list';
+  static const String facultyAttendanceDetailScreenRouteName =
+      'faculty_attendance_detail_screen';
+  static const String facultyStudentAttendanceListScreenRouteName =
+      'faculty_student_attendance_list_screen';
 }
