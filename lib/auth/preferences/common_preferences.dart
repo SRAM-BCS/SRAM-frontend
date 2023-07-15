@@ -19,6 +19,8 @@ class CommonPreferences {
 
   void deleteJwt() async {
     await _storage.delete(key: 'jwt');
+    await _storage.delete(key: 'App_Progress');
+    await _storage.delete(key: 'LoggedInUserLevel');
   }
 
   void setStudentAppProgress(AppProgressStatus appProgressStatus) async {
@@ -34,6 +36,23 @@ class CommonPreferences {
       return AppProgressStatus.loggedIn;
     } else if (data == AppProgressStatus.emailVerified.name) {
       return AppProgressStatus.emailVerified;
+    } else {
+      return null;
+    }
+  }
+
+  void setCurrentLoggedInUserLevel(CurrentUserLevel currentUserLevel) async {
+    await _storage.write(
+        key: 'LoggedInUserLevel', value: currentUserLevel.name);
+  }
+
+  Future<CurrentUserLevel?> getCurrentLoggedInUserLevel() async {
+    String? data = await _storage.read(key: 'LoggedInUserLevel');
+
+    if (data == CurrentUserLevel.student.name) {
+      return CurrentUserLevel.student;
+    } else if (data == CurrentUserLevel.faculty.name) {
+      return CurrentUserLevel.faculty;
     } else {
       return null;
     }
