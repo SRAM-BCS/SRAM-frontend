@@ -8,8 +8,13 @@ import 'package:summer_project/auth/screens/otp_screen.dart';
 import 'package:summer_project/auth/screens/register_screen.dart';
 import 'package:summer_project/auth/screens/student_login_screen.dart';
 import 'package:summer_project/constants/routing_constants.dart';
+import 'package:summer_project/faculty_screens/screens/attendance/screens/faculty_attendance_details_screen.dart';
+import 'package:summer_project/faculty_screens/screens/attendance/screens/faculty_batch_list_screen.dart';
+import 'package:summer_project/faculty_screens/screens/f_nav_bar_screen.dart';
+import 'package:summer_project/faculty_screens/screens/faculty_profile_screen.dart';
 import 'package:summer_project/student_screens/screens/attendance/screens/attendance_detail_screen.dart';
 import 'package:summer_project/student_screens/screens/attendance/screens/course_list.dart';
+import 'package:summer_project/student_screens/screens/attendance/screens/faculty_student_attendance_list._screen.dart';
 
 import 'package:summer_project/student_screens/screens/s_bottom_navbar_screen.dart';
 import 'package:summer_project/student_screens/screens/home_screen.dart';
@@ -143,13 +148,61 @@ class AppRouter {
             return const AttendanceDetailScreen();
           },
         ),
+
+        //Faculty Routes
+
+        GoRoute(
+          name: RoutingConstants.facultyLoginScreenRouteName,
+          path: '/facultyLoginScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FacultyLoginScreen();
+          },
+        ),
+
+        GoRoute(
+          name: RoutingConstants.fNavBarScreenRouteName,
+          path: '/facultyNavBarScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FNavBarScreen();
+          },
+        ),
+        GoRoute(
+          name: RoutingConstants.facultyProfileScreen,
+          path: '/facultyProfileScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FacultyProfileScreen();
+          },
+        ),
+        GoRoute(
+          name: RoutingConstants.facultyBatchCourseList,
+          path: '/facultyBatchCourseList',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FacultyBatchListScreen();
+          },
+        ),
+        GoRoute(
+          name: RoutingConstants.facultyAttendanceDetailScreenRouteName,
+          path: '/facultyAttendanceDetailScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FacultyAttendanceDetailScreen();
+          },
+        ),
+        GoRoute(
+          name: RoutingConstants.facultyStudentAttendanceListScreenRouteName,
+          path: '/facultyStudentAttendanceListScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FacultyStudentAttendanceListScreen();
+          },
+        ),
       ],
       errorPageBuilder: (context, state) {
         return const MaterialPage(
             child: Scaffold(
-          body: Text(
-            'ERROR PAGE ',
-            style: TextStyle(color: Colors.white),
+          body: Center(
+            child: Text(
+              'ERROR PAGE ',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ));
       },
