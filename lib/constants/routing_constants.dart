@@ -19,7 +19,7 @@ class RoutingConstants {
   static const String courseListScreenRouteName = 'course_list_screen';
   static const String attendanceDetailScreenRouteName =
       'attendance_detail_screen';
-
+  static const String loadingScreenRouteName = 'loading_screen';
   //faculty routes
 
   static const String facultyLoginScreenRouteName = 'faculty_login_screen';
