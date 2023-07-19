@@ -4,9 +4,11 @@ import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
+import 'package:summer_project/common/widgets/toast.dart';
+import 'dart:developer' as dev;
 import '../../../../constants/routing_constants.dart';
 import '../../../provider/mark_attendance_provider.dart';
+import '../../../services/attendance_services.dart';
 
 class FaceScanScreen extends StatefulWidget {
   const FaceScanScreen({super.key});
@@ -16,6 +18,7 @@ class FaceScanScreen extends StatefulWidget {
 }
 
 class _FaceScanScreenState extends State<FaceScanScreen> {
+  final attendanceServices = AttendanceServices();
   bool isFaceCaptured = false;
   @override
   Widget build(BuildContext context) {
@@ -36,12 +39,13 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
         onCapture: (File? image) {
           markAttendanceProvider.setFaceCaptured(true);
           if (image != null) {
+            dev.log('face service ran', name: 'Face Image');
             markAttendanceProvider.setFaceImage(image);
-          }
 
-          GoRouter.of(context).pushReplacementNamed(
-              RoutingConstants.qrCodeScannerScreenRouteName);
-          markAttendanceProvider.setFaceCaptured(false);
+            GoRouter.of(context).pushReplacementNamed(
+                RoutingConstants.loadingScreenRouteName,
+                queryParameters: {'imagePath': image.path});
+          }
         },
       ),
     );

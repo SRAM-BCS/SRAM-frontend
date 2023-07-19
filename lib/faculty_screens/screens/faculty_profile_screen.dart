@@ -194,7 +194,10 @@ class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
                   ),
                   CustomInfoTile2(
                       title: 'Courses',
-                      content: facultyProvider.courses.toString())
+                      content: facultyProvider.courses
+                          .map((e) => e.name)
+                          .toList()
+                          .join(', ')),
                 ],
               ),
             ),

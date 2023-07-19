@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:summer_project/auth/preferences/common_preferences.dart';
+import 'package:summer_project/common/widgets/toast.dart';
 import 'package:summer_project/constants/routing_constants.dart';
 import 'package:summer_project/models/student_user_model.dart';
 import 'package:summer_project/student_screens/provider/student_user_provider.dart';
 import 'package:summer_project/student_screens/services/student_services.dart';
 import 'package:summer_project/student_screens/widgets/custom_info_tile_2.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants/constants.dart';
 import '../widgets/custom_info_tile.dart';
+import '../widgets/custom_info_tile_3.dart';
 
 class StudentHomeScreen extends StatefulWidget {
   const StudentHomeScreen({super.key});
@@ -126,53 +129,33 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(7.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.credit_card_rounded),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            'Student Id Card',
-                            style: TextStyle(
-                                fontFamily: fontFamilySans, fontSize: 15),
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomInfoTile3(
+                    title: 'Website',
+                    onTap: () async {
+                      if (!await launchUrl(
+                          mode: LaunchMode.externalApplication,
+                          Uri.parse('https://www.iiitm.ac.in'))) {
+                        showToast(msg: 'Cannot open this url');
+                      }
+                    },
+                    icon: Icons.link,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.credit_card_rounded),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            'Student Id Card',
-                            style: TextStyle(
-                                fontFamily: fontFamilySans, fontSize: 15),
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomInfoTile3(
+                    title: 'Student Id Card',
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                          child: Image(
+                              image: NetworkImage(studentProvider.idImage)),
+                        ),
+                      );
+                    },
+                    icon: Icons.credit_card_rounded,
                   ),
                 ],
               ),

@@ -29,8 +29,6 @@ class _CodeSelectDropdownWidgetState extends State<CodeSelectDropdownWidget> {
     final attendanceProvider =
         Provider.of<MarkAttendanceProvider>(context, listen: false);
 
-    attendanceProvider.setCourseCode(courseCode);
-    attendanceProvider.setTeacherCode(teacherCode);
     List<DropdownMenuItem<String>> dropdownItems = [];
     List<String> itemList = [];
     if (widget.isCourseCode) {

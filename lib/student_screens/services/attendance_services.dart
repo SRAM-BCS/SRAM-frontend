@@ -38,6 +38,7 @@ class AttendanceServices {
           onSuccess: () {
             dev.log(response.body, name: 'Attendance Response');
             statusCode = response.statusCode;
+            showToast(msg: 'Attendance Marked');
           });
     } catch (e) {
       dev.log(e.toString(), name: 'Mark Attendance Error');

@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:go_router/go_router.dart';
+import 'package:summer_project/faculty_screens/models/attendance_day_wise.dart';
+import 'package:summer_project/faculty_screens/models/faculty_attendance_detail_model.dart';
+import 'package:summer_project/faculty_screens/services/faculty_attendance_services.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'dart:developer' as dev;
+
 import 'package:summer_project/common/widgets/toast.dart';
 import 'package:summer_project/constants/routing_constants.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../constants/constants.dart';
 import '../../../../student_screens/screens/attendance/widgets/attendance_count_display_widget.dart';
 
 class FacultyAttendanceDetailScreen extends StatefulWidget {
-  const FacultyAttendanceDetailScreen({super.key});
+  final String batchCode;
+  final String courseCode;
+  const FacultyAttendanceDetailScreen({
+    Key? key,
+    required this.batchCode,
+    required this.courseCode,
+  }) : super(key: key);
 
   @override
   State<FacultyAttendanceDetailScreen> createState() =>
@@ -18,10 +29,26 @@ class FacultyAttendanceDetailScreen extends StatefulWidget {
 
 class _FacultyAttendanceDetailScreenState
     extends State<FacultyAttendanceDetailScreen> {
+  final facultyAttendanceService = FacultyAttendanceServices();
   bool status = false;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
+  FacultyAttendanceDetailModel? facultyAttendanceDetailModel;
+
+  @override
+  void initState() {
+    getAttendanceData();
+    super.initState();
+  }
+
+  void getAttendanceData() async {
+    facultyAttendanceDetailModel =
+        await facultyAttendanceService.facultyBatchCourseAttendance(
+            courseCode: widget.courseCode, batchCode: widget.batchCode);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,25 +151,42 @@ class _FacultyAttendanceDetailScreenState
                         ),
                       );
                     },
-                    markerBuilder: (context, day, events) {
-                      if (day == DateTime.utc(2023, 07, 10)) {
-                        return Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.green,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${day.day}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: fontFamilySans,
-                                fontWeight: FontWeight.normal,
+                    defaultBuilder: (context, day, focusedDay) {
+                      if (facultyAttendanceDetailModel != null) {
+                        for (AttendanceDayWise d
+                            in facultyAttendanceDetailModel!
+                                .attendanceDayWise) {
+                          if (day.day == d.date.day &&
+                              day.month == d.date.month &&
+                              day.year == d.date.year) {
+                            return GestureDetector(
+                              onTap: () {
+                                GoRouter.of(context).pushNamed(
+                                  RoutingConstants
+                                      .facultyStudentAttendanceListScreenRouteName,
+                                );
+                              },
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  color: Colors.green,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${day.day}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: fontFamilySans,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        );
+                            );
+                          }
+                        }
                       }
+                      return null;
                     },
                   ),
                   onPageChanged: (focusedDay) {
@@ -221,7 +265,7 @@ class _FacultyAttendanceDetailScreenState
                           border: Border.all(color: Colors.white),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(15.0),
                           child: FlutterSwitch(
                             activeText: 'On',
                             inactiveText: 'Off',

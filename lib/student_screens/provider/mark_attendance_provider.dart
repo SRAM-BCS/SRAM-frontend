@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
+import 'package:summer_project/student_screens/constants.dart';
+
 class MarkAttendanceProvider extends ChangeNotifier {
   //face scan
   File? _faceImage;
@@ -23,8 +25,8 @@ class MarkAttendanceProvider extends ChangeNotifier {
 
   //qrcode
   String _qrcode = '';
-  String _courseCode = '';
-  String _teacherCode = '';
+  String _courseCode = courseCodeList[0];
+  String _teacherCode = teacherCodeList[0];
   bool _isQrCodeScanned = false;
   String get qrcode => _qrcode;
   String get courseCode => _courseCode;

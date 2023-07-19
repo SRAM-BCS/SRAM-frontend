@@ -15,6 +15,7 @@ import 'package:summer_project/faculty_screens/screens/faculty_profile_screen.da
 import 'package:summer_project/student_screens/screens/attendance/screens/attendance_detail_screen.dart';
 import 'package:summer_project/student_screens/screens/attendance/screens/course_list.dart';
 import 'package:summer_project/student_screens/screens/attendance/screens/faculty_student_attendance_list._screen.dart';
+import 'package:summer_project/student_screens/screens/mark_attendance/screens/loading_screen.dart';
 
 import 'package:summer_project/student_screens/screens/s_bottom_navbar_screen.dart';
 import 'package:summer_project/student_screens/screens/home_screen.dart';
@@ -148,6 +149,15 @@ class AppRouter {
             return const AttendanceDetailScreen();
           },
         ),
+        GoRoute(
+          name: RoutingConstants.loadingScreenRouteName,
+          path: '/loadingScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return LoadingScreen(
+              imagePath: state.queryParameters['imagePath']!,
+            );
+          },
+        ),
 
         //Faculty Routes
 
@@ -177,19 +187,31 @@ class AppRouter {
           name: RoutingConstants.facultyBatchCourseList,
           path: '/facultyBatchCourseList',
           builder: (BuildContext context, GoRouterState state) {
-            return const FacultyBatchListScreen();
+            return FacultyBatchListScreen(
+              email: state.queryParameters['email']!,
+            );
           },
         ),
         GoRoute(
           name: RoutingConstants.facultyAttendanceDetailScreenRouteName,
           path: '/facultyAttendanceDetailScreen',
           builder: (BuildContext context, GoRouterState state) {
-            return const FacultyAttendanceDetailScreen();
+            return FacultyAttendanceDetailScreen(
+              batchCode: state.queryParameters['batchCode']!,
+              courseCode: state.queryParameters['courseCode']!,
+            );
           },
         ),
         GoRoute(
           name: RoutingConstants.facultyStudentAttendanceListScreenRouteName,
           path: '/facultyStudentAttendanceListScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FacultyStudentAttendanceListScreen();
+          },
+        ),
+        GoRoute(
+          name: RoutingConstants.facultyStudentStatScreenRouteName,
+          path: '/facultyStudentStatScreen',
           builder: (BuildContext context, GoRouterState state) {
             return const FacultyStudentAttendanceListScreen();
           },

@@ -25,9 +25,13 @@ class RoutingConstants {
   static const String facultyLoginScreenRouteName = 'faculty_login_screen';
   static const String fNavBarScreenRouteName = 'f_nav_bar_screen';
   static const String facultyProfileScreen = 'faculty_profile_screen';
-  static const String facultyBatchCourseList = 'faculty_batch_course_list';
+  static const String facultyBatchCourseList =
+      'faculty_batch_course_list'; // query parameter ['email']
   static const String facultyAttendanceDetailScreenRouteName =
       'faculty_attendance_detail_screen';
   static const String facultyStudentAttendanceListScreenRouteName =
       'faculty_student_attendance_list_screen';
+
+  static const String facultyStudentStatScreenRouteName =
+      'faculty_student_stat_screen';
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:provider/provider.dart';
 import 'package:summer_project/faculty_screens/screens/attendance/screens/faculty_batch_list_screen.dart';
 import 'package:summer_project/faculty_screens/screens/faculty_profile_screen.dart';
 import 'package:summer_project/student_screens/screens/attendance/screens/course_list.dart';
 import 'package:summer_project/student_screens/screens/home_screen.dart';
+
+import '../provider/faculty_provider.dart';
 
 class FNavBarScreen extends StatefulWidget {
   const FNavBarScreen({super.key});
@@ -15,7 +18,11 @@ class FNavBarScreen extends StatefulWidget {
 class _FNavBarScreenState extends State<FNavBarScreen> {
   int _selectedItemPosition = 0;
   List<Widget> _buildScreens() {
-    return [const FacultyProfileScreen(), const FacultyBatchListScreen()];
+    return [
+      const FacultyProfileScreen(),
+      FacultyBatchListScreen(
+          email: Provider.of<FacultyProvider>(context, listen: true).user.email)
+    ];
   }
 
   List<BottomNavigationBarItem> navBarItems() {
