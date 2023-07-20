@@ -1,5 +1,6 @@
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:summer_project/student_screens/provider/mark_attendance_provider.dart';
 import 'package:summer_project/student_screens/provider/student_user_provider.dart';
 import 'package:summer_project/utils/router.dart';
@@ -7,9 +8,9 @@ import 'package:provider/provider.dart';
 
 import 'faculty_screens/provider/faculty_provider.dart';
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await dotenv.load(fileName: ".env");
   await FaceCamera.initialize();
 
   runApp(MultiProvider(providers: [
