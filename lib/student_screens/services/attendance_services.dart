@@ -21,7 +21,8 @@ class AttendanceServices {
         "Content-Type": "application/json; charset=utf-8",
         'Authorization': jwt
       };
-      final response = await http.post(Uri.parse(AppUrl.markAttendance),
+      final response = await http.post(
+          Uri.parse('${AppUrl.baseURL}${AppUrl.markAttendance}'),
           body: jsonEncode({
             'coursecode': coursecode,
             'classRoom': classRoom,
@@ -54,8 +55,9 @@ class AttendanceServices {
         'Content-Type': 'application/json; charset=utf-8',
         'Authorization': jwt
       };
-      final response =
-          await http.post(Uri.parse(AppUrl.getAttendance), headers: header);
+      final response = await http.post(
+          Uri.parse('${AppUrl.baseURL}${AppUrl.getAttendance}'),
+          headers: header);
 
       httpResponseHandle(
           onSuccessMsgTag: 'Attendance Service - GetAttendance',
@@ -78,8 +80,8 @@ class AttendanceServices {
         "Content-Type": "application/json; charset=utf-8",
         'Authorization': jwt
       };
-      final request =
-          http.MultipartRequest('POST', Uri.parse(AppUrl.faceCamera));
+      final request = http.MultipartRequest(
+          'POST', Uri.parse('${AppUrl.baseURL}${AppUrl.faceCamera}'));
       request.headers.addAll(header);
       request.files.add(
         await http.MultipartFile.fromPath('image_file', imagePath),

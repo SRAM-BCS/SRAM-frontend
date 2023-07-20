@@ -14,7 +14,7 @@ class CommonAuthServices {
     try {
       dev.log(email, name: "Email");
       final response = await http.post(
-        Uri.parse(AppUrl.otpGenerate),
+        Uri.parse('${AppUrl.baseURL}${AppUrl.otpGenerate}'),
         body: jsonEncode({
           'email': email,
         }),
@@ -38,11 +38,12 @@ class CommonAuthServices {
   Future<int> verifyOTP({required int otp, required String email}) async {
     int statusCode = 0;
     try {
-      final response = await http.post(Uri.parse(AppUrl.otpVerify),
-          body: jsonEncode(
-            {'otp': otp, 'email': email},
-          ),
-          headers: {"Content-Type": "application/json; charset=utf-8"});
+      final response =
+          await http.post(Uri.parse('${AppUrl.baseURL}${AppUrl.otpVerify}'),
+              body: jsonEncode(
+                {'otp': otp, 'email': email},
+              ),
+              headers: {"Content-Type": "application/json; charset=utf-8"});
       httpResponseHandle(
           onSuccessMsg: 'OTP Verified',
           onSuccessMsgTag: 'CommonAuth-Verify OTP',
@@ -70,11 +71,12 @@ class CommonAuthServices {
         "Content-Type": "application/json; charset=utf-8",
         'Authorization': jwt
       };
-      final response = await http.put(Uri.parse(AppUrl.forgotPassword),
-          body: jsonEncode(
-            {'email': email, 'otp': otp, 'newPassword': newPassword},
-          ),
-          headers: header);
+      final response =
+          await http.put(Uri.parse('${AppUrl.baseURL}${AppUrl.forgotPassword}'),
+              body: jsonEncode(
+                {'email': email, 'otp': otp, 'newPassword': newPassword},
+              ),
+              headers: header);
 
       httpResponseHandle(
           onSuccessMsgTag: 'CommonAuth - ForgotPassword',

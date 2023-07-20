@@ -20,7 +20,7 @@ class StudentAuthServices {
         "Content-Type": "application/json; charset=utf-8",
       };
       final response = await http.post(
-        Uri.parse(AppUrl.studentLogin),
+        Uri.parse('${AppUrl.baseURL}${AppUrl.studentLogin}'),
         body: jsonEncode({
           'email': email,
           'password': password,
@@ -58,8 +58,8 @@ class StudentAuthServices {
         "Content-Type": "application/json; charset=utf-8",
       };
 
-      final request =
-          http.MultipartRequest('POST', Uri.parse(AppUrl.studentRegister));
+      final request = http.MultipartRequest(
+          'POST', Uri.parse('${AppUrl.baseURL}${AppUrl.studentRegister}'));
       request.headers.addAll(header);
       request.fields['email'] = email;
       request.fields['password'] = password;

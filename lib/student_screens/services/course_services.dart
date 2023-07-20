@@ -16,8 +16,9 @@ class CourseServices {
         'Content-Type': 'application/json; charset=utf-8',
         'Authorization': jwt
       };
-      final response =
-          await http.get(Uri.parse(AppUrl.getStudentCourse), headers: header);
+      final response = await http.get(
+          Uri.parse('${AppUrl.baseURL}${AppUrl.getStudentCourse}'),
+          headers: header);
 
       httpResponseHandle(
           onSuccessMsgTag: 'Course Data',

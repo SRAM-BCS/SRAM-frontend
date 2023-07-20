@@ -18,7 +18,8 @@ class StudentServices {
       var jwt = await _commonPreference.getJwt();
       dev.log(jwt, name: "Reading JWT");
       Map<String, String> header = {'Authorization': jwt};
-      final response = await http.get(Uri.parse(AppUrl.getStudentwithEmail),
+      final response = await http.get(
+          Uri.parse('${AppUrl.baseURL}{AppUrl.getStudentwithEmail}'),
           headers: header);
       httpResponseHandle(
           onSuccessMsgTag: 'Student Auth Services: Get Student ',

@@ -26,7 +26,7 @@ class FacultyAttendanceServices {
       };
 
       final response = await http.post(
-        Uri.parse(AppUrl.facultyCodeStatus),
+        Uri.parse('${AppUrl.baseURL}${AppUrl.facultyCodeStatus}'),
         body: jsonEncode({
           'facultyCode': facultyCode,
           'classRoom': classRoom,
@@ -58,7 +58,8 @@ class FacultyAttendanceServices {
         'Authorization': jwt
       };
       final response = await http.get(
-          Uri.parse('${AppUrl.facultyBatchCourse}?email=$email'),
+          Uri.parse(
+              '${AppUrl.baseURL}${AppUrl.facultyBatchCourse}?email=$email'),
           headers: header);
 
       httpResponseHandle(
@@ -89,12 +90,12 @@ class FacultyAttendanceServices {
         'Authorization': jwt
       };
 
-      final response =
-          await http.post(Uri.parse(AppUrl.facultyBatchCourseAttendance),
-              body: jsonEncode(
-                {'courseCode': courseCode, 'batchCode': batchCode},
-              ),
-              headers: header);
+      final response = await http.post(
+          Uri.parse('${AppUrl.baseURL}${AppUrl.facultyBatchCourseAttendance}'),
+          body: jsonEncode(
+            {'courseCode': courseCode, 'batchCode': batchCode},
+          ),
+          headers: header);
 
       httpResponseHandle(
           onSuccessMsgTag: 'facultyBatchCourseAttendance ',

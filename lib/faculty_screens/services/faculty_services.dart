@@ -23,8 +23,9 @@ class FacultyServices {
         'Authorization': jwt
       };
 
-      final response =
-          await http.get(Uri.parse(AppUrl.getFaculty), headers: header);
+      final response = await http.get(
+          Uri.parse('${AppUrl.baseURL}${AppUrl.getFaculty}'),
+          headers: header);
 
       httpResponseHandle(
           onSuccessMsgTag: 'Get Faculty',
