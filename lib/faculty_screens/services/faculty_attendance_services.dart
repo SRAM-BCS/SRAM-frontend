@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 import 'dart:convert';
 
 import 'package:summer_project/auth/preferences/common_preferences.dart';
 import 'package:summer_project/faculty_screens/preferences/faculty_attendance_preferences.dart';
+import 'package:summer_project/faculty_screens/provider/faculty_attendance_data_provider.dart';
 import 'package:summer_project/models/faculty_course_model.dart';
 import 'package:summer_project/utils/http_response_handle.dart';
 
@@ -18,6 +20,8 @@ class FacultyAttendanceServices {
   Future<int> toggleFacultyCode(
       {required String facultyCode, required String classRoom}) async {
     int statusCode = 0;
+    dev.log('Faculty Code = $facultyCode $classRoom',
+        name: 'Toggle Faculty Code');
     try {
       var jwt = await commonPreference.getJwt();
       Map<String, String> header = {
@@ -80,8 +84,11 @@ class FacultyAttendanceServices {
     return facultyCourseList;
   }
 
-  Future<FacultyAttendanceDetailModel?> facultyBatchCourseAttendance(
-      {required String courseCode, required String batchCode}) async {
+  Future<int> facultyBatchCourseAttendance(
+      {required String courseCode,
+      required String batchCode,
+      required BuildContext context}) async {
+    int statusCode = 0;
     FacultyAttendanceDetailModel? facultyAttendanceDetailModel;
     try {
       var jwt = await commonPreference.getJwt();
@@ -104,15 +111,19 @@ class FacultyAttendanceServices {
           onSuccess: () {
             final data = jsonDecode(response.body)['data'];
             dev.log(data.toString(), name: 'facultyBatchCourseAttendance');
-
+            statusCode = response.statusCode;
             if (data != null) {
               facultyAttendanceDetailModel =
                   FacultyAttendanceDetailModel.fromJson(jsonEncode(data));
+
+              Provider.of<FacultyAttendanceDataProvider>(context, listen: false)
+                  .setFacultyAttendanceDetailModel(
+                      facultyAttendanceDetailModel!);
             }
           });
     } catch (e) {
       dev.log(e.toString(), name: 'Faculty Get Attendance Detail Error');
     }
-    return facultyAttendanceDetailModel;
+    return statusCode;
   }
 }

@@ -78,12 +78,15 @@ class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
               height: 20,
             ),
             Text(
-              'Good Afternoon Sir',
+              'Good Afternoon ',
               style: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontFamily: fontFamilySans,
                 fontSize: 28,
               ),
+            ),
+            const SizedBox(
+              height: 50,
             ),
             Padding(
               padding: const EdgeInsets.all(6.0),
@@ -124,58 +127,6 @@ class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
                     ],
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.credit_card_rounded),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            'Student Id Card',
-                            style: TextStyle(
-                                fontFamily: fontFamilySans, fontSize: 15),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.credit_card_rounded),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            'Student Id Card',
-                            style: TextStyle(
-                                fontFamily: fontFamilySans, fontSize: 15),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ),
             Padding(

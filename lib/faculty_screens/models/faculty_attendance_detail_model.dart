@@ -6,10 +6,12 @@ import 'package:summer_project/faculty_screens/models/attendance_stats_model.dar
 class FacultyAttendanceDetailModel {
   final List<AttendanceStatsModel> attendanceStats;
   final List<AttendanceDayWise> attendanceDayWise;
+  final Map<String, List<dynamic>> attendanceDayWiseMap;
 
   FacultyAttendanceDetailModel({
     required this.attendanceStats,
     required this.attendanceDayWise,
+    required this.attendanceDayWiseMap,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,6 +30,8 @@ class FacultyAttendanceDetailModel {
                 return AttendanceDayWise.fromMap(entry.key, entry.value);
               }) ??
               []),
+      attendanceDayWiseMap:
+          Map<String, List<dynamic>>.from(map['attendanceDayWise']),
     );
   }
 

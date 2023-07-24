@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:summer_project/common/widgets/loading_widget.dart';
 
 import 'package:summer_project/constants/constants.dart';
 import 'package:summer_project/faculty_screens/services/faculty_attendance_services.dart';
@@ -93,7 +94,7 @@ class _FacultyBatchListScreenState extends State<FacultyBatchListScreen> {
                   return const Text('No course Batch Data to Show');
                 }
               } else {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: LoadingWidget());
               }
             },
           )

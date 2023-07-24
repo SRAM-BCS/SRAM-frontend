@@ -4,10 +4,12 @@ import '../../../../constants/constants.dart';
 
 class AttendanceCountDisplayWidget extends StatelessWidget {
   final String title;
+  int? countTextSize;
   int count;
   AttendanceCountDisplayWidget({
     Key? key,
     required this.title,
+    this.countTextSize,
     required this.count,
   }) : super(key: key);
 
@@ -35,7 +37,8 @@ class AttendanceCountDisplayWidget extends StatelessWidget {
               child: Text(
                 count.toString(),
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize:
+                      countTextSize == null ? 20 : countTextSize!.toDouble(),
                   fontFamily: fontFamilySans,
                   fontWeight: FontWeight.normal,
                 ),

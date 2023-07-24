@@ -10,11 +10,12 @@ import 'package:summer_project/auth/screens/student_login_screen.dart';
 import 'package:summer_project/constants/routing_constants.dart';
 import 'package:summer_project/faculty_screens/screens/attendance/screens/faculty_attendance_details_screen.dart';
 import 'package:summer_project/faculty_screens/screens/attendance/screens/faculty_batch_list_screen.dart';
+import 'package:summer_project/faculty_screens/screens/attendance/screens/faculty_student_stat_screen.dart';
 import 'package:summer_project/faculty_screens/screens/f_nav_bar_screen.dart';
 import 'package:summer_project/faculty_screens/screens/faculty_profile_screen.dart';
 import 'package:summer_project/student_screens/screens/attendance/screens/attendance_detail_screen.dart';
 import 'package:summer_project/student_screens/screens/attendance/screens/course_list.dart';
-import 'package:summer_project/student_screens/screens/attendance/screens/faculty_student_attendance_list._screen.dart';
+import 'package:summer_project/faculty_screens/screens/attendance/screens/faculty_student_attendance_list._screen.dart';
 import 'package:summer_project/student_screens/screens/mark_attendance/screens/loading_screen.dart';
 
 import 'package:summer_project/student_screens/screens/s_bottom_navbar_screen.dart';
@@ -206,14 +207,16 @@ class AppRouter {
           name: RoutingConstants.facultyStudentAttendanceListScreenRouteName,
           path: '/facultyStudentAttendanceListScreen',
           builder: (BuildContext context, GoRouterState state) {
-            return const FacultyStudentAttendanceListScreen();
+            return FacultyStudentAttendanceListScreen(
+              date: state.queryParameters['date']!,
+            );
           },
         ),
         GoRoute(
           name: RoutingConstants.facultyStudentStatScreenRouteName,
           path: '/facultyStudentStatScreen',
           builder: (BuildContext context, GoRouterState state) {
-            return const FacultyStudentAttendanceListScreen();
+            return const FacultyStudentStatScreen();
           },
         ),
       ],

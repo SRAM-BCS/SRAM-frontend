@@ -18,7 +18,7 @@ class FacultyAuthServices {
       };
 
       final response = await http.post(
-        Uri.parse(AppUrl.facultyLogin),
+        Uri.parse('${AppUrl.baseURL}${AppUrl.facultyLogin}'),
         body: jsonEncode({
           'email': email,
           'password': password,
