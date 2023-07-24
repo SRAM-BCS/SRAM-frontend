@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:summer_project/common/widgets/loading_widget.dart';
+import 'package:summer_project/constants/constants.dart';
 import 'dart:developer' as dev;
 
 import '../../../../common/widgets/toast.dart';
@@ -48,16 +50,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Verifying Face...'),
-            SizedBox(
+            Text('Verifying Face...',
+                style: TextStyle(fontFamily: fontFamilySans)),
+            Text('Stay on this Page...',
+                style: TextStyle(fontFamily: fontFamilySans)),
+            const SizedBox(
               height: 20,
             ),
-            CircularProgressIndicator(),
+            const LoadingWidget(),
           ],
         ),
       ),

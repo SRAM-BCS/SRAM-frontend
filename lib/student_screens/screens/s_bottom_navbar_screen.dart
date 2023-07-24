@@ -25,10 +25,11 @@ class _SBottomNavBarState extends State<SBottomNavBar> {
   List<BottomNavigationBarItem> navBarItems() {
     return [
       const BottomNavigationBarItem(
-          icon: Icon(Icons.person_2), label: 'profile'),
+          icon: Icon(Icons.person_2), label: 'Profile'),
       const BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_month_rounded), label: 'attendance'),
-      const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+          icon: Icon(Icons.calendar_month_rounded), label: 'Attendance'),
+      const BottomNavigationBarItem(
+          icon: Icon(Icons.qr_code), label: 'Mark Attendance'),
     ];
   }
 

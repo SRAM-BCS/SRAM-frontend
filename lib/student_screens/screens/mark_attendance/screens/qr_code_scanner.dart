@@ -33,7 +33,7 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
             startDelay: true,
             controller: MobileScannerController(
               detectionTimeoutMs: 500,
-              detectionSpeed: DetectionSpeed.normal,
+              detectionSpeed: DetectionSpeed.noDuplicates,
               facing: CameraFacing.back,
               torchEnabled: false,
             ),
@@ -63,13 +63,13 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
             },
           ),
           Positioned.fill(
-            top: MediaQuery.of(context).size.width / 10,
-            bottom: MediaQuery.of(context).size.width / 10,
+            top: MediaQuery.of(context).size.height * 0.3,
             left: MediaQuery.of(context).size.width / 10,
             right: MediaQuery.of(context).size.width / 10,
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Scanning Qr Code'),
                     const SizedBox(
@@ -101,6 +101,11 @@ class _QRCodeScannerScreenState extends State<QRCodeScannerScreen> {
                       width: 2,
                     ),
                     borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(
+                    Icons.qr_code_2,
+                    size: 250,
+                    color: Colors.white,
                   ),
                 ),
               ],

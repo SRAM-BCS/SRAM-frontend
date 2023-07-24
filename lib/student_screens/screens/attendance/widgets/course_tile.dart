@@ -31,72 +31,82 @@ class CourseTile extends StatelessWidget {
         Provider.of<MarkAttendanceProvider>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: Container(
-        width: double.infinity,
-        height: 120,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
-            )
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                courseName,
-                style: TextStyle(
-                    fontSize: 22,
-                    fontFamily: fontFamilySans,
-                    fontWeight: FontWeight.normal),
-              ),
-              Text(
-                courseCode,
-                style: TextStyle(
-                    fontFamily: fontFamilySans,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15),
-              ),
-              Text(
-                facultyName,
-                style: TextStyle(
-                    fontFamily: fontFamilySans,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  if (!await launchUrl(
-                    Uri.parse(
-                        'mailto:$facultyEmail?subject=Greetings&body=Hello%20Sir/Maam'),
-                  )) {
-                    showToast(msg: 'Cannot Launch Url');
-                  }
-                },
-                child: Text(
-                  facultyEmail,
+      child: InkWell(
+        onTap: () {
+          markAttendanceProvider.setCourseCode(courseCode);
+          markAttendanceProvider.setTeacherCode(facultyCode);
+
+          GoRouter.of(context).pushNamed(
+            RoutingConstants.attendanceDetailScreenRouteName,
+          );
+        },
+        child: Container(
+          width: double.infinity,
+          height: 120,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              )
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  courseName,
                   style: TextStyle(
-                      color: Colors.blue,
+                      fontSize: 22,
+                      fontFamily: fontFamilySans,
+                      fontWeight: FontWeight.normal),
+                ),
+                Text(
+                  courseCode,
+                  style: TextStyle(
                       fontFamily: fontFamilySans,
                       fontWeight: FontWeight.normal,
                       fontSize: 15),
                 ),
-              ),
-              Text(
-                facultyCode,
-                style: TextStyle(
-                    fontFamily: fontFamilySans,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15),
-              ),
-            ],
+                Text(
+                  facultyName,
+                  style: TextStyle(
+                      fontFamily: fontFamilySans,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    if (!await launchUrl(
+                      Uri.parse(
+                          'mailto:$facultyEmail?subject=Greetings&body=Hello%20Sir/Maam'),
+                    )) {
+                      showToast(msg: 'Cannot Launch Url');
+                    }
+                  },
+                  child: Text(
+                    facultyEmail,
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontFamily: fontFamilySans,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15),
+                  ),
+                ),
+                Text(
+                  facultyCode,
+                  style: TextStyle(
+                      fontFamily: fontFamilySans,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15),
+                ),
+              ],
+            ),
           ),
         ),
       ),

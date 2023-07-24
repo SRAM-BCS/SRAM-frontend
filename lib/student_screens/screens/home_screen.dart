@@ -99,7 +99,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
               ),
             ),
             Text(
-              'Computer Science Student (4th Sem)',
+              'Computer Science Student ',
               style: TextStyle(
                   fontFamily: fontFamilySans,
                   fontSize: 15,
@@ -176,7 +176,11 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                   ),
                   CustomInfoTile2(
                       title: 'Study Programme',
-                      content: 'Computer Science Engineering')
+                      content: 'Computer Science Engineering'),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomInfoTile2(title: 'Batch', content: 'BCS')
                 ],
               ),
             ),

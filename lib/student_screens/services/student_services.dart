@@ -12,6 +12,7 @@ import '../../utils/http_response_handle.dart';
 
 class StudentServices {
   final _commonPreference = CommonPreferences();
+
   Future<StudentUserModel?> getStudent({required BuildContext context}) async {
     StudentUserModel? studentData;
     try {
@@ -19,7 +20,7 @@ class StudentServices {
       dev.log(jwt, name: "Reading JWT");
       Map<String, String> header = {'Authorization': jwt};
       final response = await http.get(
-          Uri.parse('${AppUrl.baseURL}{AppUrl.getStudentwithEmail}'),
+          Uri.parse('${AppUrl.baseURL}${AppUrl.getStudentwithEmail}'),
           headers: header);
       httpResponseHandle(
           onSuccessMsgTag: 'Student Auth Services: Get Student ',
