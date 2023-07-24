@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:summer_project/constants/constants.dart';
 import 'package:summer_project/constants/routing_constants.dart';
 import 'package:summer_project/models/student_course_model.dart';
 import 'package:summer_project/student_screens/screens/attendance/widgets/course_tile.dart';
 
 import '../../../../common/widgets/loading_widget.dart';
+import '../../../provider/mark_attendance_provider.dart';
 import '../../../services/course_services.dart';
 
 class CourseList extends StatefulWidget {
@@ -32,6 +34,8 @@ class _CourseListState extends State<CourseList> {
 
   @override
   Widget build(BuildContext context) {
+    final markAttendanceProvider =
+        Provider.of<MarkAttendanceProvider>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -72,15 +76,27 @@ class _CourseListState extends State<CourseList> {
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
-                        return CourseTile(
-                          courseName: snapshot.data![index].courseModel.name,
-                          courseCode: snapshot.data![index].courseModel.code,
-                          facultyName:
-                              snapshot.data![index].facultyUserModel.name,
-                          facultyEmail:
-                              snapshot.data![index].facultyUserModel.email,
-                          facultyCode:
-                              snapshot.data![index].facultyUserModel.code,
+                        return GestureDetector(
+                          onTap: () {
+                            markAttendanceProvider.setCourseCode(
+                                snapshot.data![index].courseModel.code);
+                            markAttendanceProvider.setTeacherCode(
+                                snapshot.data![index].facultyUserModel.code);
+
+                            GoRouter.of(context).pushNamed(
+                              RoutingConstants.attendanceDetailScreenRouteName,
+                            );
+                          },
+                          child: CourseTile(
+                            courseName: snapshot.data![index].courseModel.name,
+                            courseCode: snapshot.data![index].courseModel.code,
+                            facultyName:
+                                snapshot.data![index].facultyUserModel.name,
+                            facultyEmail:
+                                snapshot.data![index].facultyUserModel.email,
+                            facultyCode:
+                                snapshot.data![index].facultyUserModel.code,
+                          ),
                         );
                       },
                     );

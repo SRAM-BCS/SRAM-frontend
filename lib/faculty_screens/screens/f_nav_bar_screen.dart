@@ -28,9 +28,9 @@ class _FNavBarScreenState extends State<FNavBarScreen> {
   List<BottomNavigationBarItem> navBarItems() {
     return [
       const BottomNavigationBarItem(
-          icon: Icon(Icons.person_2), label: 'profile'),
+          icon: Icon(Icons.person_2), label: 'Profile'),
       const BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_month_rounded), label: 'attendance'),
+          icon: Icon(Icons.calendar_month_rounded), label: 'Attendance'),
     ];
   }
 

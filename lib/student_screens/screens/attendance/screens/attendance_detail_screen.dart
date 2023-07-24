@@ -121,7 +121,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                       );
                     },
                     markerBuilder: (context, day, events) {
-                      if (day == DateTime.utc(2023, 07, 10)) {
+                      if (day == DateTime.utc(2023, 07, 24)) {
                         return Container(
                           decoration: const BoxDecoration(
                             color: Colors.green,
@@ -162,11 +162,11 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           AttendanceCountDisplayWidget(
-                              title: 'Present', count: 10),
+                              title: 'Present', count: 1),
                           AttendanceCountDisplayWidget(
-                              title: 'Absent', count: 10),
+                              title: 'Absent', count: 4),
                           AttendanceCountDisplayWidget(
-                              title: 'Total Days', count: 10),
+                              title: 'Total Days', count: 1),
                           Stack(
                             children: [
                               Material(
@@ -177,7 +177,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text(
-                                      '10%',
+                                      '25%',
                                       style: TextStyle(
                                         fontSize: 30,
                                         fontFamily: fontFamilySans,

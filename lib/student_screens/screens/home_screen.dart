@@ -9,6 +9,7 @@ import 'package:summer_project/student_screens/services/student_services.dart';
 import 'package:summer_project/student_screens/widgets/custom_info_tile_2.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../common/widgets/loading_widget.dart';
 import '../../constants/constants.dart';
 import '../widgets/custom_info_tile.dart';
 import '../widgets/custom_info_tile_3.dart';
@@ -151,6 +152,9 @@ class _StudentHomeScreenState extends State<StudentHomeScreen> {
                         context: context,
                         builder: (context) => Dialog(
                           child: Image(
+                              loadingBuilder:
+                                  (context, child, loadingProgress) =>
+                                      const LoadingWidget(),
                               image: NetworkImage(studentProvider.idImage)),
                         ),
                       );

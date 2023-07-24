@@ -65,28 +65,19 @@ class _FacultyBatchListScreenState extends State<FacultyBatchListScreen> {
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
                           GoRouter.of(context).pushNamed(
-                            RoutingConstants
-                                .facultyAttendanceDetailScreenRouteName,
-                          );
+                              RoutingConstants
+                                  .facultyAttendanceDetailScreenRouteName,
+                              queryParameters: {
+                                'courseCode': snapshot.data![index].course.code,
+                                'batchCode': snapshot.data![index].batch.code,
+                              });
                         },
-                        child: InkWell(
-                          onTap: () {
-                            GoRouter.of(context).pushNamed(
-                                RoutingConstants
-                                    .facultyAttendanceDetailScreenRouteName,
-                                queryParameters: {
-                                  'courseCode':
-                                      snapshot.data![index].course.code,
-                                  'batchCode': snapshot.data![index].batch.code,
-                                });
-                          },
-                          child: CourseTile(
-                              courseName: snapshot.data![index].course.name,
-                              courseCode: snapshot.data![index].course.code,
-                              facultyName: snapshot.data![index].batch.title,
-                              facultyEmail: '',
-                              facultyCode: snapshot.data![index].batch.code),
-                        ),
+                        child: CourseTile(
+                            courseName: snapshot.data![index].course.name,
+                            courseCode: snapshot.data![index].course.code,
+                            facultyName: snapshot.data![index].batch.title,
+                            facultyEmail: '',
+                            facultyCode: snapshot.data![index].batch.code),
                       ),
                     ),
                   );
@@ -94,7 +85,20 @@ class _FacultyBatchListScreenState extends State<FacultyBatchListScreen> {
                   return const Text('No course Batch Data to Show');
                 }
               } else {
-                return const Center(child: LoadingWidget());
+                return Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                      ),
+                      const LoadingWidget(),
+                      Text(
+                        'Loading Course List',
+                        style: TextStyle(fontFamily: fontFamilySans),
+                      ),
+                    ],
+                  ),
+                );
               }
             },
           )

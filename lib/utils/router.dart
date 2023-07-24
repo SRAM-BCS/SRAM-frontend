@@ -35,6 +35,7 @@ class AppRouter {
           name: RoutingConstants.firstScreenRouteName,
           path: '/',
           builder: (BuildContext context, GoRouterState state) {
+            
             return const FirstScreen();
           },
         ),

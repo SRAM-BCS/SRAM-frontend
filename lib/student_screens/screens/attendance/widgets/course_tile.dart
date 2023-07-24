@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:summer_project/common/widgets/toast.dart';
 
 import 'package:summer_project/constants/constants.dart';
-import 'package:summer_project/constants/routing_constants.dart';
-import 'package:summer_project/student_screens/provider/mark_attendance_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CourseTile extends StatelessWidget {
@@ -27,86 +23,74 @@ class CourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final markAttendanceProvider =
-        Provider.of<MarkAttendanceProvider>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: InkWell(
-        onTap: () {
-          markAttendanceProvider.setCourseCode(courseCode);
-          markAttendanceProvider.setTeacherCode(facultyCode);
-
-          GoRouter.of(context).pushNamed(
-            RoutingConstants.attendanceDetailScreenRouteName,
-          );
-        },
-        child: Container(
-          width: double.infinity,
-          height: 120,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 10,
-                offset: const Offset(0, 5),
-              )
+      child: Container(
+        width: double.infinity,
+        height: 120,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            )
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                courseName,
+                style: TextStyle(
+                    fontSize: 22,
+                    fontFamily: fontFamilySans,
+                    fontWeight: FontWeight.normal),
+              ),
+              Text(
+                courseCode,
+                style: TextStyle(
+                    fontFamily: fontFamilySans,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15),
+              ),
+              Text(
+                facultyName,
+                style: TextStyle(
+                    fontFamily: fontFamilySans,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  if (!await launchUrl(
+                    Uri.parse(
+                        'mailto:$facultyEmail?subject=Greetings&body=Hello%20Sir/Maam'),
+                  )) {
+                    showToast(msg: 'Cannot Launch Url');
+                  }
+                },
+                child: Text(
+                  facultyEmail,
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontFamily: fontFamilySans,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15),
+                ),
+              ),
+              Text(
+                facultyCode,
+                style: TextStyle(
+                    fontFamily: fontFamilySans,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15),
+              ),
             ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  courseName,
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: fontFamilySans,
-                      fontWeight: FontWeight.normal),
-                ),
-                Text(
-                  courseCode,
-                  style: TextStyle(
-                      fontFamily: fontFamilySans,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15),
-                ),
-                Text(
-                  facultyName,
-                  style: TextStyle(
-                      fontFamily: fontFamilySans,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    if (!await launchUrl(
-                      Uri.parse(
-                          'mailto:$facultyEmail?subject=Greetings&body=Hello%20Sir/Maam'),
-                    )) {
-                      showToast(msg: 'Cannot Launch Url');
-                    }
-                  },
-                  child: Text(
-                    facultyEmail,
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontFamily: fontFamilySans,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15),
-                  ),
-                ),
-                Text(
-                  facultyCode,
-                  style: TextStyle(
-                      fontFamily: fontFamilySans,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15),
-                ),
-              ],
-            ),
           ),
         ),
       ),
