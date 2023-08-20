@@ -47,7 +47,8 @@ class AttendanceServices {
     return statusCode;
   }
 
-  Future<int> getAttendance() async {
+  Future<int> getAttendance(
+      {required String faculty, required String course}) async {
     int statusCode = 0;
     try {
       var jwt = await commonPreferences.getJwt();
@@ -56,7 +57,8 @@ class AttendanceServices {
         'Authorization': jwt
       };
       final response = await http.post(
-          Uri.parse('${AppUrl.baseURL}${AppUrl.getAttendance}'),
+          Uri.parse(
+              '${AppUrl.baseURL}${AppUrl.getAttendance}?faculty=$faculty&course=$course'),
           headers: header);
 
       httpResponseHandle(
@@ -65,6 +67,7 @@ class AttendanceServices {
           response: response,
           onSuccess: () {
             statusCode = response.statusCode;
+            dev.log(response.body, name: 'Student Get Attendance Response');
           });
     } catch (e) {
       dev.log(e.toString(), name: 'Get Attendance Error');
