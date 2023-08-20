@@ -35,7 +35,6 @@ class AppRouter {
           name: RoutingConstants.firstScreenRouteName,
           path: '/',
           builder: (BuildContext context, GoRouterState state) {
-            
             return const FirstScreen();
           },
         ),
@@ -148,7 +147,10 @@ class AppRouter {
           name: RoutingConstants.attendanceDetailScreenRouteName,
           path: '/attendanceDetailScreen',
           builder: (BuildContext context, GoRouterState state) {
-            return const AttendanceDetailScreen();
+            return AttendanceDetailScreen(
+              faculty: state.queryParameters['faculty']!,
+              course: state.queryParameters['course']!,
+            );
           },
         ),
         GoRoute(
