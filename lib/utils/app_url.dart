@@ -10,13 +10,13 @@ class AppUrl {
   static const String getStudentCourse = "$studentUrl/course";
   //student attendance urls
   static const String markAttendance = "$studentUrl/attendance";
-  static const String getAttendance = "$studentUrl/attendance/";
+  static const String getAttendance = "$studentUrl/attendance/a";
   static const String faceCamera = "$studentUrl/face/verification/";
 
   //faculty urls
   static const String facultyUrl = 'faculty';
   static const String getFaculty = "$facultyUrl/get";
-  static const String facultyCodeStatus = "$facultyUrl/faculty/code/status/";
+  static const String facultyCodeStatus = "$facultyUrl/faculty/code/status";
   static const String facultyLogin = "$facultyUrl/login";
   static const String facultyBatchCourse = "$facultyUrl/batch/course";
   static const String facultyBatchCourseAttendance =
