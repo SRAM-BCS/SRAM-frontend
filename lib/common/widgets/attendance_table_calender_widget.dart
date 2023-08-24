@@ -4,11 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../../constants/constants.dart';
-import '../../../../constants/routing_constants.dart';
-import '../../../models/attendance_day_wise.dart';
-import '../../../provider/faculty_attendance_data_provider.dart';
-import '../../../services/faculty_attendance_services.dart';
+import '../../constants/constants.dart';
+import '../../constants/routing_constants.dart';
+import '../../faculty_screens/models/attendance_day_wise.dart';
+import '../../faculty_screens/provider/faculty_attendance_data_provider.dart';
+import '../../faculty_screens/services/faculty_attendance_services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class AttendanceTableCalenderWidget extends StatefulWidget {

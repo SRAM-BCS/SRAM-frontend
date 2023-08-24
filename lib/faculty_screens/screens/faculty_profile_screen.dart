@@ -78,7 +78,7 @@ class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
               height: 20,
             ),
             Text(
-              'Good Afternoon ',
+              'Good Evening',
               style: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontFamily: fontFamilySans,

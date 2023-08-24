@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:summer_project/faculty_screens/screens/attendance/widget/attendance_table_calender_widget.dart';
+import 'package:summer_project/common/widgets/attendance_table_calender_widget.dart';
 
 import 'package:summer_project/constants/routing_constants.dart';
 

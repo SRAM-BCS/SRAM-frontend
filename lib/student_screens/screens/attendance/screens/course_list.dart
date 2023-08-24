@@ -84,8 +84,14 @@ class _CourseListState extends State<CourseList> {
                                 snapshot.data![index].facultyUserModel.code);
 
                             GoRouter.of(context).pushNamed(
-                              RoutingConstants.attendanceDetailScreenRouteName,
-                            );
+                                RoutingConstants
+                                    .attendanceDetailScreenRouteName,
+                                queryParameters: {
+                                  "faculty": snapshot
+                                      .data![index].facultyUserModel.code,
+                                  "course":
+                                      snapshot.data![index].courseModel.code
+                                });
                           },
                           child: CourseTile(
                             courseName: snapshot.data![index].courseModel.name,

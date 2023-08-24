@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 import 'package:http/http.dart' as http;
 import 'package:summer_project/common/widgets/toast.dart';
+import 'package:summer_project/models/student_attendance_data_model.dart';
 import 'dart:convert';
 
 import 'package:summer_project/utils/app_url.dart';
@@ -47,16 +48,16 @@ class AttendanceServices {
     return statusCode;
   }
 
-  Future<int> getAttendance(
+  Future<StudentAttendanceDataModel?> getAttendance(
       {required String faculty, required String course}) async {
-    int statusCode = 0;
+    StudentAttendanceDataModel? studentAttendanceDataModel;
     try {
       var jwt = await commonPreferences.getJwt();
       Map<String, String> header = {
         'Content-Type': 'application/json; charset=utf-8',
         'Authorization': jwt
       };
-      final response = await http.post(
+      final response = await http.get(
           Uri.parse(
               '${AppUrl.baseURL}${AppUrl.getAttendance}?faculty=$faculty&course=$course'),
           headers: header);
@@ -66,13 +67,17 @@ class AttendanceServices {
           onSuccessMsg: 'Attendance Fetched',
           response: response,
           onSuccess: () {
-            statusCode = response.statusCode;
             dev.log(response.body, name: 'Student Get Attendance Response');
+
+            if (response.body.isNotEmpty) {
+              studentAttendanceDataModel = StudentAttendanceDataModel.fromJson(
+                  jsonEncode(jsonDecode(response.body)['data']));
+            }
           });
     } catch (e) {
       dev.log(e.toString(), name: 'Get Attendance Error');
     }
-    return statusCode;
+    return studentAttendanceDataModel;
   }
 
   Future<int> faceVerification({required String imagePath}) async {

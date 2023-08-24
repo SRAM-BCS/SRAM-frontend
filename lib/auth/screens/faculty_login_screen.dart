@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:summer_project/auth/widgets/auth_textfield_widget.dart';
+import 'package:summer_project/auth/widgets/button_widget_1.dart';
 import 'dart:developer' as dev;
 
+import '../../constants/constants.dart';
 import '../../constants/routing_constants.dart';
 import '../services/faculty_auth_services.dart';
 
@@ -57,7 +59,12 @@ class _LoginScreenState extends State<FacultyLoginScreen> {
           child: const Text("Forgot password?",
               style: TextStyle(fontWeight: FontWeight.w300)),
           onPressed: () {
-//            Navigator.pushReplacementNamed(context, '/reset-password');
+            GoRouter.of(context).pushNamed(
+                RoutingConstants.forgotPasswordEmailVerificationScreenRouteName,
+                queryParameters: {
+                  'endRoute':
+                      RoutingConstants.forgotPasswordResetScreenRouteName
+                });
           },
         ),
       ],
@@ -95,7 +102,17 @@ class _LoginScreenState extends State<FacultyLoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 250.0),
+                  const SizedBox(height: 150.0),
+                  Text(
+                    'Faculty Login Screen',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: fontFamilySans,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const Text("Email"),
                   const SizedBox(height: 5.0),
                   emailField,
@@ -107,11 +124,11 @@ class _LoginScreenState extends State<FacultyLoginScreen> {
                   //  auth.loggedInStatus == Status.Authenticating
                   //     ? loading
                   //     :
-                  ElevatedButton(
-                    onPressed: () {
+                  ButtonWidget1(
+                    title: 'SUBMIT',
+                    onTap: () {
                       doLogin();
                     },
-                    child: const Text('Login'),
                   ),
                   const SizedBox(height: 5.0),
                   forgotLabel
