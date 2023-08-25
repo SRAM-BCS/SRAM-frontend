@@ -6,7 +6,7 @@ class StudentAttendanceDataModel {
   List<StudentAttendanceDayWiseModel> attendance;
   int present;
   int total_classes;
-  int attendance_percentage;
+  double attendance_percentage;
   StudentAttendanceDataModel({
     required this.attendance,
     required this.present,
@@ -29,7 +29,7 @@ class StudentAttendanceDataModel {
           ?.map((x) => StudentAttendanceDayWiseModel.fromMap(x))),
       present: map['present']?.toInt() ?? 0,
       total_classes: map['total_classes']?.toInt() ?? 0,
-      attendance_percentage: map['attendance_percentage']?.toInt() ?? 0,
+      attendance_percentage: map['attendance_percentage']?.toDouble() ?? 0.0,
     );
   }
 

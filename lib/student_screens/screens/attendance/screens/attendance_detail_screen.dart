@@ -28,8 +28,6 @@ class AttendanceDetailScreen extends StatefulWidget {
 }
 
 class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
-  DateTime _focusedDay = DateTime.now();
-  DateTime _selectedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   final attendanceServices = AttendanceServices();
@@ -81,9 +79,9 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
             totalClasses = snapshot.data?.total_classes != null
                 ? snapshot.data!.total_classes
                 : 0;
-            absent = totalClasses - present;
+            absent = totalClasses.toInt() - present;
             attendancePercenetage = snapshot.data?.attendance_percentage != null
-                ? snapshot.data!.attendance_percentage
+                ? snapshot.data!.attendance_percentage.round()
                 : 0;
             return Column(
               children: [
@@ -125,6 +123,10 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                       lastDay: DateTime.utc(2030, 3, 14),
                       focusedDay: DateTime.now(),
                       calendarStyle: CalendarStyle(
+                        todayDecoration: const BoxDecoration(
+                          color: Colors.grey,
+                          shape: BoxShape.circle,
+                        ),
                         selectedDecoration: const BoxDecoration(
                           color: Colors.blue,
                           shape: BoxShape.circle,
@@ -153,19 +155,37 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                       },
                       calendarBuilders: CalendarBuilders(
                         todayBuilder: (context, day, focusedDay) {
+                          List<StudentAttendanceDayWiseModel> attendanceData =
+                              snapshot.data!.attendance;
+                          Color color = Colors.blue;
+                          if (attendanceData.isNotEmpty) {
+                            if (attendanceData.last.date.day ==
+                                    focusedDay.day &&
+                                attendanceData.last.date.month ==
+                                    focusedDay.month &&
+                                attendanceData.last.date.year ==
+                                    focusedDay.year) {
+                              color = Colors.green;
+                            }
+                          }
                           return Container(
+                            width: 40,
                             decoration: BoxDecoration(
-                              color: snapshot.data!.attendance.last.date ==
-                                      focusedDay
-                                  ? Colors.green
-                                  : Colors.grey.shade200,
+                              color: color,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.shade400,
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 5),
+                                )
+                              ],
                               shape: BoxShape.circle,
                             ),
                             child: Center(
                               child: Text(
                                 '${day.day}',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontFamily: fontFamilySans,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -242,9 +262,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                           return null;
                         },
                       ),
-                      onPageChanged: (focusedDay) {
-                        _focusedDay = focusedDay;
-                      },
+                      onPageChanged: (focusedDay) {},
                     ),
                   ),
                 ),

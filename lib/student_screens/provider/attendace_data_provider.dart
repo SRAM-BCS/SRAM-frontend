@@ -11,7 +11,7 @@ class StudentAttendanceDataProvider extends ChangeNotifier {
   String? checkAttendanceForDate;
   int _present = 0;
   int _total_classes = 0;
-  int _attendance_percentage = 0;
+  double _attendance_percentage = 0;
   bool _isLoading = true;
 
   StudentAttendanceDataModel? get studentAttendanceDataModel =>
@@ -21,7 +21,7 @@ class StudentAttendanceDataProvider extends ChangeNotifier {
       _attendanceDaywiseList;
   int get getPresent => _present;
   int get getTotalClasses => _total_classes;
-  int get getAttendancePercentage => _attendance_percentage;
+  double get getAttendancePercentage => _attendance_percentage;
   String? get getCheckAttendanceForDate => checkAttendanceForDate;
   bool get isLoading => _isLoading;
 

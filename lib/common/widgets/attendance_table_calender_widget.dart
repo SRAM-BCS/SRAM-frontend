@@ -11,6 +11,8 @@ import '../../faculty_screens/provider/faculty_attendance_data_provider.dart';
 import '../../faculty_screens/services/faculty_attendance_services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../../models/student_attendance_daywise_model.dart';
+
 class AttendanceTableCalenderWidget extends StatefulWidget {
   final String batchCode;
   final String courseCode;
@@ -87,29 +89,47 @@ class _AttendanceTableCalenderWidgetState
                   _calendarFormat = format;
                 });
               },
-              selectedDayPredicate: (day) {
-                return isSameDay(day, _selectedDay);
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                });
-              },
               calendarBuilders: CalendarBuilders(
                 todayBuilder: (context, day, focusedDay) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '${day.day}',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: fontFamilySans,
-                          fontWeight: FontWeight.normal,
+                  List<AttendanceDayWise> attendanceData =
+                      value.attendanceDaywiseList;
+                  Color color = Colors.blue;
+                  if (attendanceData.last.date.day == focusedDay.day &&
+                      attendanceData.last.date.month == focusedDay.month &&
+                      attendanceData.last.date.year == focusedDay.year) {
+                    color = Colors.green;
+                  }
+                  return GestureDetector(
+                    onTap: () {
+                      GoRouter.of(context).pushNamed(
+                          RoutingConstants
+                              .facultyStudentAttendanceListScreenRouteName,
+                          queryParameters: {
+                            'date': DateFormat('dd-MMM-yyyy')
+                                .format(attendanceData.last.date),
+                          });
+                    },
+                    child: Container(
+                      width: 40,
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade400,
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          )
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${day.day}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: fontFamilySans,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ),
@@ -131,9 +151,17 @@ class _AttendanceTableCalenderWidgetState
                                 });
                           },
                           child: Container(
-                            decoration: const BoxDecoration(
+                            width: 40,
+                            decoration: BoxDecoration(
                               color: Colors.green,
                               shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.shade400,
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 5),
+                                )
+                              ],
                             ),
                             child: Center(
                               child: Text(

@@ -1,5 +1,5 @@
-List<String> courseCodeList = ['IRE', 'TOC', 'AI', 'SE'];
-List<String> teacherCodeList = ['JD', 'AK', 'WG', 'SK'];
+List<String> courseCodeList = ['IRE', 'EM', 'COA'];
+List<String> teacherCodeList = ['JD', 'KV', 'AS'];
 
 class StudentObject {
   final String studentName;

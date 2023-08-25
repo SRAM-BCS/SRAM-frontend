@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:summer_project/faculty_screens/provider/faculty_provider.dart';
 
@@ -33,6 +34,8 @@ class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    int formattedTime = int.parse(DateFormat.Hm().format(now).split(':').first);
     final facultyProvider =
         Provider.of<FacultyProvider>(context, listen: true).user;
     return Scaffold(
@@ -78,7 +81,11 @@ class _FacultyProfileScreenState extends State<FacultyProfileScreen> {
               height: 20,
             ),
             Text(
-              'Good Evening',
+              formattedTime >= 0 && formattedTime < 12
+                  ? 'Good Morning 🌅'
+                  : formattedTime >= 12 && formattedTime < 5
+                      ? 'Good Afternoon 🌞'
+                      : 'Good Evening 🌄',
               style: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontFamily: fontFamilySans,
