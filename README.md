@@ -13,35 +13,38 @@ SRAM is a **student registration and attendance management application** designe
 - **Profile Management**: Both students and faculty can manage their profiles.
 
 ### Screenshots
-#### Registration Screen
-![Registration Screen](./screenshots/registration.jpg)
 
-#### Login Screen
-![Login Screen](./screenshots/login.jpg)
+#### Registration Screen and Login Screen
+<div>
+  <img src="./screenshots/registration.jpg" alt="Registration Screen" height="500" style="display:inline-block; margin-right:20px;">
+  <img src="./screenshots/login.jpg" alt="Login Screen" height="500" style="display:inline-block;">
+</div>
 
-#### QR Code Screen
-![QR Code Screen](./screenshots/qr%20screen.jpg)
+#### QR Screen and Attendance Screen
+<div>
+  <img src="./screenshots/qr%20screen.jpg" alt="QR Code Screen" height="500" style="display:inline-block; margin-right:20px;">
+  <img src="./screenshots/attendance%20screen.jpg" alt="Attendance Screen" height="500" style="display:inline-block;">
+</div>
 
-#### Attendance Screen
-![Attendance Screen](./screenshots/attendance%20screen.jpg)
+#### Student's Profile Screen and Faculty Profile Screen
+<div>
+  <img src="./screenshots/profile%20screen.jpg" alt="Student Profile" height="500" style="display:inline-block; margin-right:20px;">
+  <img src="./screenshots/profile%20screen%20student.jpg" alt="Faculty Profile" height="500" style="display:inline-block;">
+</div>
 
-#### Profile Screen (Student)
-![Student Profile](./screenshots/profile%20screen.jpg)
 
-#### Profile Screen (Faculty)
-![Faculty Profile](./screenshots/profile%20screen%20student.jpg)
+#### Attendance List Screen and Faculty Courses Screen
+<div>
+  <img src="./screenshots/attendance%201.jpg" alt="Attendance List" height="500" style="display:inline-block; margin-right:20px;">
+  <img src="./screenshots/course%20list.jpg" alt="Faculty Courses List" height="500" style="display:inline-block;">
+</div>
 
-#### Attendance List
-![Attendance List](./screenshots/attendance%201.jpg)
 
-#### Faculty Courses List
-![Faculty Courses List](./screenshots/course%20list.jpg)
-
-#### Student Enrolled Courses List
-![Student Enrolled Courses List](./screenshots/course%20attendance.jpg)
-
-#### Student Stats Screen
-![Student Stats Screen](./screenshots/student%20stats.jpg)
+#### Student Opted Couses Screen and Student Stats Screen
+<div>
+  <img src="./screenshots/course%20attendance.jpg" alt="Student Enrolled Courses List" height="500" style="display:inline-block; margin-right:20px;">
+  <img src="./screenshots/student%20stats.jpg" alt="Student Stats Screen" height="500" style="display:inline-block;">
+</div>
 
 ### Technologies Used
 - **Flutter**: For building the cross-platform UI.
