@@ -51,7 +51,7 @@ SRAM is a **student registration and attendance management application** designe
 - **Dart**: Programming language for Flutter development.
 - **QR Code Generator/Scanner**: For generating and scanning QR codes.
 - **Face Verification API**: For integrating face verification functionality.
-- **Provider (or BLoC)**: State management.
+- **Provider**: State management.
 
 ### Installation & Setup
 1. Clone the repository:
